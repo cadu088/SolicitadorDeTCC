@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
 		width: 30,
 		height: 30,
 		borderRadius: 100,
-		borderColor: colors.white,
-		borderWidth: 1,
+		// borderColor: colors.white,
+		// borderWidth: 1,
 		padding:1
 	},
 });

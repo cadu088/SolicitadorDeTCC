@@ -12,7 +12,8 @@ export default class Accordian extends Component{
         this.state = { 
           data: props.data,
           expanded : true,
-					dataImg: props.dataImg
+					dataImg: props.dataImg,
+					response: props.response
         }
 
         if (Platform.OS === 'android') {
@@ -45,8 +46,8 @@ export default class Accordian extends Component{
 									<View style={styles.content}>
 										<Text>{this.props.data}</Text>    
 										<View style={styles.act}>
-											<Feather name="check-circle" size={20} color="green" />
-											<AntDesign name="infocirlceo" size={20} color="red" />
+											<Feather name="check-circle" size={20} color="green" onPress={() => this.props.response('createTCC', this.props.title)} />
+											<AntDesign name="infocirlceo" size={20} color="red" onPress={() => this.props.response('details', this.props.title)} />
 										</View>
 									</View>
                 </View>

@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
   container: {
 		padding: 5,
 		backgroundColor: colors.backgroundMenu,
-		width: '60%',
+		width: '50%',
 		height: 45,
-		marginLeft: 80,
+		marginLeft: 100,
 		marginRight: 40,
 		borderRadius: 100,
 		// borderWidth: 1,
