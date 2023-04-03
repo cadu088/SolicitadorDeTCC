@@ -21,13 +21,14 @@ export default function App() {
       <Stack.Navigator screenOptions={{
     headerShown: false
   }}>
-        <Stack.Screen  name="Home" component={Index} />
+        <Stack.Screen  name="NewDataStudent" component={NewDataStudent} />
         {/* <Stack.Screen  name="List" component={List} />
         <Stack.Screen  name="Msg" component={Msg} />
         <Stack.Screen  name="Task" component={Task} /> */}
         <Stack.Screen  name="Login" component={Login} />
         <Stack.Screen  name="NewUser" component={NewUser} />
-        <Stack.Screen  name="NewDataStudent" component={NewDataStudent} />
+        <Stack.Screen  name="Home" component={Index} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
