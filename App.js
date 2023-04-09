@@ -5,11 +5,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NewUser from './Pages/NewUser/Index';
 import Login from './Pages/Login/Index';
-import Index from './Pages/Student/Index';
+import Student from './Pages/Student/Index';
+import Advisor from './Pages/Advisor/Index';
 import List from './Pages/Student/List';
 import Msg from './Pages/Student/Msg';
 import Task from './Pages/Student/Task';
-import NewDataStudent from './Pages/NewDataStudent/Index';
+import AddArea from './Pages/AddArea/Index';
 
 
 const Stack = createStackNavigator();
@@ -21,14 +22,12 @@ export default function App() {
       <Stack.Navigator screenOptions={{
     headerShown: false
   }}>
-        <Stack.Screen  name="NewDataStudent" component={NewDataStudent} />
-        {/* <Stack.Screen  name="List" component={List} />
-        <Stack.Screen  name="Msg" component={Msg} />
-        <Stack.Screen  name="Task" component={Task} /> */}
-        <Stack.Screen  name="Login" component={Login} />
-        <Stack.Screen  name="NewUser" component={NewUser} />
-        <Stack.Screen  name="Home" component={Index} />
+				{/* <Stack.Screen  name="Login" component={Login} />
+        <Stack.Screen  name="NewUser" component={NewUser} /> */}
+				<Stack.Screen  name="AddArea" component={AddArea} />
 
+        <Stack.Screen  name="Student" component={Student} />
+        <Stack.Screen  name="Advisor" component={Advisor} />
       </Stack.Navigator>
     </NavigationContainer>
   );

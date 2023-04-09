@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     TextInput,
     StyleSheet,
@@ -32,10 +32,45 @@ import Task from './Task';
 export default function Index() {
 	const [ page, setPage ] = useState(0);
 	const pages = ['Home', 'List','Msg','Task'];
+	const navigation = useNavigation();
 
 	function handlePage(pageValue){
 		setPage(pageValue);
 	}
+
+	async function getArea(){
+		var user = await getPeople()
+		try{
+			await api.post('/area/getPeople', {iD_PESSOA: user.iD_PESSOA.toString()}).then((response) => {
+				console.log(response)
+				if(response.data.result.length <= 0){
+					navigation.navigate('AddArea');  
+				}
+			});
+		}catch(e){
+			console.log(e.response.data.mensagem)
+			if(e.response.data.mensagem == 'Nenhuma area para esse usuario foi encontrada!'){
+				navigation.navigate('AddArea');  
+				return;
+			}
+			alert('Erro ao buscar areas');
+			return;
+		}
+	}
+
+	async function getPeople() {
+		try{
+			var storage = await AsyncStorage.getItem('@solicitaTCC:people');
+			return JSON.parse(storage);
+		}catch(e){
+			return null;
+		}
+	}
+	
+
+	useEffect(() => {
+		getArea();
+	},[]);
 
 
 return (
@@ -47,7 +82,7 @@ return (
 					 		: pages[page] === 'Task' ? (<Task />): null}
 				
 			</View>
-			<MenuBaseUser type="student" pages={pages} pageValue={pages[page]} handlePage={(pageValue) => handlePage(pageValue)} />
+			{/* <MenuBaseUser type="student" pages={pages} pageValue={pages[page]} handlePage={(pageValue) => handlePage(pageValue)} /> */}
 			<HeaderBase type="student" dataImg="https://avatars.githubusercontent.com/u/72260079?v=4" pages={pages} pageValue={pages[page]}/>
 		</>
 );

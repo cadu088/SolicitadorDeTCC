@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     TextInput,
     StyleSheet,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-import api from '../../ApiService/api';
+import api from '../../services/api';
 
 import MyButton  from '../../Components/MyButton/Index';
 import LinkButton from '../../Components/LinkButton/Index';
@@ -43,32 +43,74 @@ function handleChangeIcon() {
 
 async function navigateToHome() {
 
-    if (txtLogin.trim() === '') {
-        alert('Campo login é obrigatório');
-        return;
-    }
-    if (txtSenha.trim() === '') {
-        alert('Campo senha é obrigatório');
-        return;
-    }
-  //  setLoading(true);
+	if (txtLogin.trim() === '') {
+			alert('Campo login é obrigatório');
+			return;
+	}
+	if (txtSenha.trim() === '') {
+			alert('Campo senha é obrigatório');
+			return;
+	}
+	setLoading(true);
+	const data = {
+		email: txtLogin,
+		senha: txtSenha
+	}
 
-    if(txtLogin == "h1" && txtSenha == "123"){
-        await AsyncStorage.setItem('@nomeApp:userName', txtLogin);
-        navigation.navigate('Home');    
-    } else {
-        alert('Usuario e/ou senha inválido!');
-        return;
-    }
-  //  setLoading(false);
+	try{
+		await api.post('/login/post', data).then(async (response) => {
+			await getPeople(response.data.result.iD_PESSOA)
+		});
+		var user = JSON.parse(await AsyncStorage.getItem('@solicitaTCC:people'))
+
+		if(user.iD_TIPO_PESSOA == 2){
+			navigation.navigate('Student');  
+		}else{
+			navigation.navigate('Advisor');  
+		}
+
+		
+	}catch(e){
+		alert('Usuario e/ou senha inválido!');
+		return;
+	}
+	
+
+  setLoading(false);
 }
 
 function navigateToNewUser() {
     navigation.navigate('NewUser');
 }
-/*if (flLoading) {
-    return (<Loading />);
-}*/
+
+async function getUser() {
+	var storage = await AsyncStorage.getItem('@solicitaTCC:people');
+	if(storage !== 'null' && storage !== null){
+		var user = JSON.parse(storage)
+		if(user.iD_TIPO_PESSOA == 2){
+			navigation.navigate('Student');  
+		}else{
+			navigation.navigate('Advisor');  
+		}
+	}else{
+		navigation.navigate('Login');  
+	}
+}
+
+async function getPeople(user) {
+	try{
+		await api.post('/login/getPeople', {iD_PESSOA: user}).then(async (response) => {
+			await AsyncStorage.setItem('@solicitaTCC:people', JSON.stringify(response.data.result));
+			return JSON.parse(response.data.result);
+		});
+	}catch(e){
+		return null;
+	}
+}
+
+useEffect(() => {
+	getUser();	
+},[]);
 
 return (
     <View style={styles.container}>

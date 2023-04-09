@@ -6,12 +6,15 @@ import {
 		Image,
     TouchableOpacity,
     TouchableOpacityProps,
-		Alert
+		Alert,
+		SafeAreaView,
+		ScrollView,
 } from 'react-native';
 import colors from '../../styles/colors';
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/core';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ButtonSelectBar from '../ButtonSelectBar/Index'
 
@@ -23,12 +26,15 @@ export default function HeaderBase(props) {
 	const [ img, setImg ] = useState({ uri: props.dataImg });
 
 
-
+	async function setLogoff(){
+		await AsyncStorage.setItem('@solicitaTCC:people', null); 
+		navigation.navigate('Login');
+	}
 
     return (
         <>
             <View style={styles.container}>
-							<Text onPress={() => navigation.navigate('Login')}>
+							<Text onPress={() => setLogoff()}>
 								{/*  {' '} */}
 								<ButtonSelectBar width={40} height={30} active={false} colorActive={colors.white} colorDisabled={colors.transparent} icon={<Ionicons name="ios-log-out-outline" size={25} color={colors.white} />} />
 							</Text>

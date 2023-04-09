@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-import api from '../../ApiService/api';
+import api from '../../services/api';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import MyButton  from '../../Components/MyButton/Index';
