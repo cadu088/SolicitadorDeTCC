@@ -139,7 +139,7 @@ export default function AddArea() {
 		}
 		setLoading(true);
 		setFunctionAction(() => () => goHome());
-		setTimeout(() => setLoading(false), 3000)
+		setTimeout(() => setLoading(false), 7000)
 	}
  
 	function goHome() {

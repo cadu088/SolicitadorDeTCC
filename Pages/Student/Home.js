@@ -6,6 +6,7 @@ import {
     View,
 		SafeAreaView,
 		ScrollView,
+		Image
 } from 'react-native';
 
 import Accordion from '../../Components/Accordian/Index'
@@ -27,7 +28,7 @@ export default function Home() {
 
 	const visu = ['advisors', 'createTCC', 'details']; 
 	const [stage, setStage] = useState(0);
-	const [advisor, setAdvisor] = useState('');
+	const [advisor, setAdvisor] = useState({});
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
@@ -37,6 +38,28 @@ export default function Home() {
 		setAdvisor(dataAdvisor)
 	}
 
+	const dataTeste = [{
+		'iD_PESSOA': 1,
+		'NOME': 'Humberto Melo',
+		'DATA': 'Desenvolvimento de APIs, Sistemas Web e Mobile',
+		'IMG': 'https://files.uniaraxa.edu.br/assets/apps/lms/img/136-119.png'
+	},{
+		'iD_PESSOA': 2,
+		'NOME': 'Robinson Cruz',
+		'DATA': 'Banco de dados, desenvolvimento .NET',
+		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/255-636645696799475269.jpg'
+	},{
+		'iD_PESSOA': 3,
+		'NOME': 'Maurício Júnior',
+		'DATA': 'Inteligência Artificial, Internet das Coisas',
+		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/193-636687419898079554.jpg'
+	},{
+		'iD_PESSOA': 4,
+		'NOME': 'Renato Correa',
+		'DATA': 'Desenvolvimento de APIs, Sistemas Web',
+		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png'
+	}]
+
 return (
     <View style={styles.container}>
 			{visu[stage] === 'advisors' && (<>
@@ -45,12 +68,16 @@ return (
 					<View style={{maxHeight: 600, marginBottom: 10}}>
 						<SafeAreaView style={styles.containerScroll}>
 							<ScrollView style={styles.scrollView} vertical={true}>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Humberto Melo" data="Desenvolvimento de APIs, Sistemas Web e Mobile" dataImg="https://files.uniaraxa.edu.br/assets/apps/lms/img/136-119.png"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Robinson Cruz" data="Banco de dados, desenvolvimento .NET" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/255-636645696799475269.jpg"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Maurício Júnior" data="Inteligência Artificial, Internet das Coisas" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/193-636687419898079554.jpg"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Renato Correa" data="Desenvolvimento de APIs, Sistemas Web" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Nazir Júnior" data="Banco de dados, desenvolvimento .NET" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/7-636697411132549488.jpg"/>
-							</ScrollView>
+								{dataTeste.map((item) => (
+									<Accordion 
+										key={item.iD_PESSOA}
+										response={(newVisu) => handleStage(newVisu, item)} 
+										title={item.NOME} 
+										data={item.DATA} 
+										dataImg={item.IMG}
+									/>
+									))}
+								</ScrollView>
 						</SafeAreaView>
 					</View>
 			</View>
@@ -87,14 +114,24 @@ return (
 										numberOfLines={4}
 										placeholderTextColor={colors.blackSpace}
 									/>
-									<Text style={styles.inputAdvisors}>Orientador:  {advisor}</Text>
+									<View style={{justifyContent: 'center', width: '100%', alignItems: 'center'}}>
+										<View style={styles.inputAdvisors}>
+											{/* <Image /> */}
+											<Image
+												style={styles.selfPhoto}
+												alt='self'
+												source={{ uri: advisor.IMG }}
+											/>
+											<Text style={{color: colors.white, fontWeight: 'bold'}}>{advisor.NOME}</Text>
+										</View>
+									</View>
 								</ScrollView>
 							</SafeAreaView>
 						</View>
 					</View>
 					<View style={styles.infos}>
 						<Text style={styles.infosTitle}>Complete os dados do TCC</Text>
-						<Text style={styles.infosBody}>Adicione todos as informações para que o orientador analise!</Text>
+						<Text style={styles.infosBody}>Adicione todas as informações para que o orientador analise e aprove o Projeto!</Text>
 					</View>
 				</>
 			)}
@@ -207,19 +244,28 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 	}, 
 	inputAdvisors:{
-		height: 50,
+		height: 35,
     borderWidth: 0,
-    width: '100%',
-    marginBottom: 16,
+    width: 140,
+    // marginBottom: 16,
     paddingHorizontal: 8,
 		// borderColor: colors.white,
 		color: colors.white,
-		backgroundColor: colors.green,
-		borderRadius: 8,
+		backgroundColor: colors.blue_light,
+		borderRadius: 100,
 		fontSize:16,
 		fontWeight:'bold',
 		textAlign: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		alignItems: 'center',
-	}
+		flexDirection: 'row',
+		paddingRight: 20,
+	},	selfPhoto: {
+		width: 27,
+		height: 27,
+		borderRadius: 100,
+		// borderColor: Colors.white,
+		// borderWidth: 1,
+		padding:1
+	},
 });

@@ -20,13 +20,13 @@ export default function App() {
   return (
       <NavigationContainer>
       <Stack.Navigator screenOptions={{
-    headerShown: false
-  }}>
-				{/* <Stack.Screen  name="Login" component={Login} />
-        <Stack.Screen  name="NewUser" component={NewUser} /> */}
+				headerShown: false
+			}}>
+			 <Stack.Screen  name="Login" component={Login} />
+        <Stack.Screen  name="NewUser" component={NewUser} /> 
 				<Stack.Screen  name="AddArea" component={AddArea} />
 
-        <Stack.Screen  name="Student" component={Student} />
+        <Stack.Screen  name="Student" component={Student} /> 
         <Stack.Screen  name="Advisor" component={Advisor} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -6,9 +6,11 @@ import {
     View,
 		SafeAreaView,
 		ScrollView,
+		Image,
+		ActivityIndicator
 } from 'react-native';
 
-import Accordion from '../../Components/Accordian/Index'
+import AccordianNotification from '../../Components/AccordianNotification/Index'
 
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
@@ -21,13 +23,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const eye = 'eye';
 const eyeOff = 'eye-off';
 
-
+import ButtonTCC from '../../Components/ButtonTCC/index'
 
 export default function Home() {
 
 	const visu = ['advisors', 'createTCC', 'details']; 
 	const [stage, setStage] = useState(0);
 	const [advisor, setAdvisor] = useState('');
+	const [loadingSolici, setLoadingSolici] = useState(false);
+	const [loadingNotification, setLoadingNotification] = useState(false);
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
@@ -37,76 +41,165 @@ export default function Home() {
 		setAdvisor(dataAdvisor)
 	}
 
+	const dataTeste = [{
+		'iD_SOLICITACAO': 1,
+		'NOME': 'Carlos Rodriguess',
+		'TITULO': 'Aprovações acadêmicas públicas e auditáveis com o uso de blockchain implementadas no padrão de soulbound token',
+		'IMG': 'https://avatars.githubusercontent.com/u/72260079?v=4'
+	},{
+		'iD_SOLICITACAO': 2,
+		'NOME': 'Rogerio Nascimento',
+		'TITULO': 'Sistema para gerenciamento de tarefas com gamificação',
+		'IMG': 'https://thumbs.dreamstime.com/b/imagem-de-perfil-meninos-uma-ilustrada-do-dos-loiros-sobre-um-fundo-branco-177134636.jpg'
+	},{
+		'iD_SOLICITACAO': 3,
+		'NOME': 'Mariana Cortez',
+		'TITULO': 'Desenvolvimento de uma extensão de App Inventor para avaliação de interfaces de aplicativos utilizando Machine Learning Mostrar registro completo',
+		'IMG': 'https://thumbs.dreamstime.com/b/imagem-do-perfil-das-raparigas-uma-ilustrada-loiras-num-fundo-branco-177134443.jpg'
+	},{
+		'iD_SOLICITACAO': 4,
+		'NOME': 'João Paulo Fagundes',
+		'TITULO': 'Proposta de um Modelo de Automação de Quadro Kanban com abordagem Bpm: Estudo de Caso em uma Empresa de Diagnóstico com Bpm System',
+		'IMG': 'https://4maos.com.br/wp-content/uploads/2022/10/d0e3603e3ff62c97aa02f7974ba9f5cc.jpg'
+	}]
+
 return (
     <View style={styles.container}>
-			{visu[stage] === 'advisors' && (<>
-				<View style={styles.advisors}>
-					<Text style={styles.titleAdvisors}>Orientadores</Text>
-					<View style={{maxHeight: 600, marginBottom: 10}}>
-						<SafeAreaView style={styles.containerScroll}>
-							<ScrollView style={styles.scrollView} vertical={true}>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Humberto Melo" data="Desenvolvimento de APIs, Sistemas Web e Mobile" dataImg="https://files.uniaraxa.edu.br/assets/apps/lms/img/136-119.png"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Robinson Cruz" data="Banco de dados, desenvolvimento .NET" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/255-636645696799475269.jpg"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Maurício Júnior" data="Inteligência Artificial, Internet das Coisas" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/193-636687419898079554.jpg"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Renato Correa" data="Desenvolvimento de APIs, Sistemas Web" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png"/>
-								<Accordion response={(newVisu, dataAdvisor) => handleStage(newVisu, dataAdvisor)} title="Nazir Júnior" data="Banco de dados, desenvolvimento .NET" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/7-636697411132549488.jpg"/>
+			<View 
+				style={{
+					width: '100%', 
+					height: 400, 
+					backgroundColor: '#0B0B0B48', 
+					borderRadius: 8, 
+					padding: 8,
+					
+				}}
+			>
+				{loadingSolici ? (
+					<ActivityIndicator size={50} color={colors.blackSpace} />
+				) : (<>
+					<Text 
+					style={{
+						width: '100%', 
+						textAlign: 'center', 
+						fontSize: 18, 
+						fontWeight: 'bold',
+						marginBottom: 10,
+						color:colors.white
+					}}
+					>
+					Solicitações de orientação
+					</Text>
+					<SafeAreaView style={{height: 350, borderRadius: 8}} >
+					<ScrollView vertical={true} style={{borderRadius: 8}}>
+						{dataTeste.map((item) => (
+							<ButtonTCC name={item.NOME} title={item.TITULO} img={item.IMG} key={item.iD_SOLICITACAO}/>
+						))}
+							
+					</ScrollView>
+					</SafeAreaView>
+				</>)}
+				
+			</View>
+			
+			<View
+				style={{
+					marginTop:15,
+					width: '100%', 
+					height: 95, 
+					backgroundColor: '#0B0B0B48', 
+					borderRadius: 8, 
+					padding: 5,
+					borderColor: colors.white, 
+					borderLeftWidth: 5
+				}}
+			>
+				<Text 
+					style={{
+						width: '100%', 
+						textAlign: 'left', 
+						fontSize: 18, 
+						fontWeight: 'bold',
+						// marginBottom: 10,
+						color:colors.white
+					}}
+					>
+					 Notificações
+					</Text>
+				{loadingNotification ? (<ActivityIndicator size={50} color={colors.blackSpace} />) : (
+					<View style={{
+						flexDirection: 'row',
+						padding: 5
+					}}>
+						<SafeAreaView style={{height: 75, borderRadius: 8}} >
+							<ScrollView vertical={false} horizontal={true} style={{borderRadius: 8}}>
+							{dataTeste.map((item) => (
+								<AccordianNotification
+									key={item.TITULO}
+									dataImg={item.IMG}
+									data={item.TITULO}
+									response={() => console.log('a')}
+									qtdMSG={item.iD_SOLICITACAO * 41}
+									/>
+								))}
+
+								{dataTeste.map((item) => (
+								<AccordianNotification
+									key={item.TITULO}
+									dataImg={item.IMG}
+									data={item.TITULO}
+									response={() => console.log('a')}
+									qtdMSG={item.iD_SOLICITACAO * 3}
+									/>
+								))}
 							</ScrollView>
 						</SafeAreaView>
 					</View>
+				)}
+				
+				{/* <Text 
+					style={{
+						width: '100%', 
+						textAlign: 'center', 
+						fontSize: 18, 
+						fontWeight: 'bold',
+						marginBottom: 10,
+						color:colors.white
+					}}
+				>
+					Notificações
+				</Text> */}
+				
+				
 			</View>
-			<View style={styles.infos}>
-				<Text style={styles.infosTitle}>Escolha um Orientador</Text>
-				<Text style={styles.infosBody}>Ele(a) vai acompanhar todo o processo de criação do TCC e ajudar em dúvidas e revisões!</Text>
-			</View>
-			</>)}
 
-			{visu[stage] === 'createTCC' && (
-				<>
-					<View style={styles.advisors}>
-					
-						<Text style={styles.titleAdvisors}>{<AntDesign name="leftcircleo" onPress={() => handleStage('advisors','')} size={30} color={colors.white} />}  Cadastre seu trabalho</Text>
-						<View style={{maxHeight: 600, marginBottom: 10}}>
-							<SafeAreaView style={styles.containerScroll}>
-								<ScrollView style={styles.scrollView} vertical={true}>
-									<Text style={styles.subtag}>Titulo do projeto</Text>
-									<TextInput
-										style={styles.input}
-										placeholder="Titulo do projeto"
-										onChangeText={text => setTitle(text)}
-										value={title}
-										placeholderTextColor={colors.blackSpace}
-									/>
-									<Text style={styles.subtag}>Descrição do Projeto</Text>
-									{/* multiline={true} */}
-									<TextInput
-										style={styles.inputTextArea}
-										placeholder="Descreva o projeto"
-										onChangeText={text => setDescription(text)}
-										value={description}
-										multiline={true}
-										numberOfLines={4}
-										placeholderTextColor={colors.blackSpace}
-									/>
-									<Text style={styles.inputAdvisors}>Orientador:  {advisor}</Text>
-								</ScrollView>
-							</SafeAreaView>
-						</View>
-					</View>
-					<View style={styles.infos}>
-						<Text style={styles.infosTitle}>Complete os dados do TCC</Text>
-						<Text style={styles.infosBody}>Adicione todos as informações para que o orientador analise!</Text>
-					</View>
-				</>
-			)}
-
-			{visu[stage] === 'details' && (
-				<>
-				<View style={styles.advisors}>
-					<Text>Info dos professores</Text>
+			<View
+				style={{
+					marginTop:15,
+					width: '100%', 
+					height: 150, 
+					backgroundColor: '#0B0B0B48', 
+					borderRadius: 8, 
+					padding: 5,
+					alignItems: 'center',
+					justifyContent: 'center',
+					borderColor: '#0B0B0B70', 
+					borderWidth: 2
+				}}
+			>
+				<View style={styles.infos}>
+					<Text style={styles.infosTitle}>Lembre-se</Text>
+					<Text style={styles.infosBody}>As entregas devem ser feitas até o dia 12/10/2023! 
+						Para que haja tempo, é necessário que alinhe um prazo com o aluno e evite
+						maiores problemas na finalização dos trabalhos.
+					</Text>
 				</View>
-				</>
-			)}
-			
+			{/* <Image
+					style={{width: '100%', height: '100%', borderRadius:8}}
+					alt='self'
+					source={{ uri: 'https://site.uniaraxa.edu.br/wp-content/uploads/2023/02/Banner-I-Pre-Classificados.jpg' }}
+				/> */}
+			</View>
     </View>
 
 );
@@ -140,7 +233,6 @@ const styles = StyleSheet.create({
 		marginBottom:10
 	}, 
 	infos:{
-		marginTop: 40,
 		width: '100%',
 		// backgroundColor: colors.blackSpace,
 		// borderColor: colors.blackWhite,
@@ -221,5 +313,13 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
-	}
+	},selfPhoto: {
+		width: 50,
+		height: 50,
+		borderRadius: 100,
+		marginRight: 10,
+		// borderColor: Colors.white,
+		// borderWidth: 1,
+		padding:1
+	},
 });

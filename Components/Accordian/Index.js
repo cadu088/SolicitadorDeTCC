@@ -46,8 +46,8 @@ export default class Accordian extends Component{
 									<View style={styles.content}>
 										<Text>{this.props.data}</Text>    
 										<View style={styles.act}>
-											<Feather name="check-circle" size={20} color="green" onPress={() => this.props.response('createTCC', this.props.title)} />
-											<AntDesign name="infocirlceo" size={20} color="red" onPress={() => this.props.response('details', this.props.title)} />
+											<Feather name="check-circle" size={20} color="green" onPress={() => this.props.response('createTCC')} />
+											<AntDesign name="infocirlceo" size={20} color="red" onPress={() => this.props.response('details')} />
 										</View>
 									</View>
                 </View>

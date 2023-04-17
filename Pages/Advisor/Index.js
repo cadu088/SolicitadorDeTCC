@@ -69,7 +69,7 @@ export default function Index() {
 	
 
 	useEffect(() => {
-		getArea();
+		// getArea();
 	},[]);
 
 
@@ -82,8 +82,8 @@ return (
 					 		: pages[page] === 'Task' ? (<Task />): null}
 				
 			</View>
-			{/* <MenuBaseUser type="student" pages={pages} pageValue={pages[page]} handlePage={(pageValue) => handlePage(pageValue)} /> */}
-			<HeaderBase type="student" dataImg="https://avatars.githubusercontent.com/u/72260079?v=4" pages={pages} pageValue={pages[page]}/>
+			<MenuBaseUser type="student" pages={pages} pageValue={pages[page]} handlePage={(pageValue) => handlePage(pageValue)} />
+			<HeaderBase type="student" dataImg="https://sec.uniaraxa.edu.br/assets/lms/Pessoa/193-636687419898079554.jpg" pages={pages} pageValue={pages[page]}/>
 		</>
 );
 }

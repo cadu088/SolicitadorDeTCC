@@ -104,7 +104,8 @@ export default function PageLoader(props) {
 			setPosition(0);
 			setInOpen(true);
 			fadeInScreen();
-			fadeIn();
+			fadeIn()
+			// setTimeout(() => fadeIn(), 100);
 		}else{
 			fadeOutScreen();
 		}
