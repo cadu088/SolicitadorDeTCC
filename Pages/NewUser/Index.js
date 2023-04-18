@@ -6,18 +6,19 @@ import {
     View,
     FlatList,
     Alert,
-		Image
+		Image,
+		TouchableOpacity
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import PageLoader from '../../Components/PageLoader/index'
 
 import MyButton  from '../../Components/MyButton/Index';
 import LinkButton from '../../Components/LinkButton/Index';
+import { launchImageLibrary } from "react-native-image-picker";
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Switch } from 'react-native-gesture-handler';
@@ -28,22 +29,43 @@ const eyeOff = 'eye-off';
 
 
 export default function NewUser() {
- 
-    const [flShowPass, setShowPass] =  useState(false);
-    const [iconPass, setIconPass] =  useState(eye);
-    const [isSelf, setIsSelf] = useState({ uri: 'https://avatars.githubusercontent.com/u/72260079?v=4' });
+	const [loading, setLoading] = useState(false);
+	const [flShowPass, setShowPass] =  useState(false);
+	const [iconPass, setIconPass] =  useState(eye);
+	const [isSelf, setIsSelf] = useState({ uri: 'https://avatars.githubusercontent.com/u/72260079?v=4' });
+	const [file, setFile] = useState();
+	const [txtName, setName] = useState('')
+	const [txtDocument, setDocument] = useState('')
+	const [txtEmail, setEmail] = useState('')
+	const [txtPassword, setPassword] = useState('')
+	const [txtPasswordConfirm, setPasswordConfirm] = useState('')
+	const navigation = useNavigation();
+//   const [flLoading, setLoading] = React.useState(false)
+	const [lstErrors, setListErrors] = useState([]);
+	const [isStudent, setIsStudent] = useState(true);
+	const [functionAction, setFunctionAction] = useState(() => () => null);
 
-    const [txtName, setName] = useState('')
-    const [txtDocument, setDocument] = useState('')
-    const [txtEmail, setEmail] = useState('')
-    const [txtPassword, setPassword] = useState('')
-    const [txtPasswordConfirm, setPasswordConfirm] = useState('')
-    const navigation = useNavigation();
- //   const [flLoading, setLoading] = React.useState(false)
-    const [lstErrors, setListErrors] = useState([]);
-    const [isStudent, setIsStudent] = useState(true);
-
-    
+		async function handleChoosePhoto()  {
+			try{
+				await launchImageLibrary({
+					mediaType: 'photo',
+					includeBase64: false,
+					maxHeight: 200,
+					maxWidth: 200,
+				},
+				(response) => {
+					console.log(response);
+					setIsSelf({
+						uri: response.assets[0].uri
+					});
+				},
+			)
+				
+			}catch(e){
+				alert(e.message);
+			}
+			
+		};
     function handleChangeIcon() {
          let icone = iconPass == eye ? eyeOff : eye;
          let flShowPassAux = !flShowPass;
@@ -60,19 +82,20 @@ export default function NewUser() {
  
      async function handlePostNewStudent() {
         if(camposPrenchidos()){
-            let objNewStudent = {
-                name: txtName,
-                password: txtPassword,
-                document: txtDocument,
-                login: txtEmail
-            };
+					let objNewStudent = {
+							name: txtName,
+							password: txtPassword,
+							document: txtDocument,
+							login: txtEmail
+					};
 
-            //  const response = await api.post(`/Users`, objNewStudent);
-            //  alert('Usuario Criado!');
+					//  const response = await api.post(`/Users`, objNewStudent);
+					//  alert('Usuario Criado!');
 
-						if(isStudent){
-							navigation.navigate('NewDataStudent'); 
-						}
+					setLoading(true);
+					setFunctionAction(() => () => navigation.navigate('AddArea'));
+					setTimeout(() => setLoading(false), 5000)
+
         }
      }
 
@@ -123,22 +146,31 @@ export default function NewUser() {
      function navigateToBack() {
          navigation.goBack();
      }
+
+		 function changeSwitch(){
+			setIsSelf({ uri: !isStudent ? 'https://avatars.githubusercontent.com/u/72260079?v=4' : 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/193-636687419898079554.jpg' });
+			setIsStudent(!isStudent)
+		 }
  
  
-   return (
+   return (<>
      <SafeAreaView style={styles.container}>
-			<View style={styles.content}>			
+			<View style={styles.content}>		
+			
+	
 		 <View >
 				{/* <Text style={styles.textTitle}>Adicione uma foto</Text> */}
 
 				<View style={{display:'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 20}}>
-						<Image
-							style={styles.selfPhoto}
-							alt='self'
-							source={isSelf}
-						/>
+						
 						{/* <LinkButton title='Adicionar'onPress={onFromPickerImage} /> */}
-
+						<TouchableOpacity onPress={async () => await handleChoosePhoto()}  color="#841584" >
+							<Image
+								style={styles.selfPhoto}
+								alt='self'
+								source={isSelf}
+							/>
+						</TouchableOpacity>
 					
 				</View>
 
@@ -176,17 +208,26 @@ export default function NewUser() {
 			trackColor={{false: '#767577', true: '#767577'}}
 			thumbColor={colors.blue}
 			ios_backgroundColor="#3e3e3e"
-			onValueChange={() => setIsStudent(!isStudent)}
+			onValueChange={() =>  changeSwitch()}
 			value={isStudent}
 			
 			/>
 			<Text style={isStudent ? styles.textActive : styles.textDisabled}>Aluno</Text>
 		</View>
 
-		{isStudent && (
+		{isStudent ? (
 			<TextInput
 				style={styles.textInput}
 				placeholder="RA"
+				onChangeText={text => setDocument(text)}
+				maxLength={11}
+				placeholderTextColor={colors.white}
+				value={txtDocument}
+			/>
+		): (
+			<TextInput
+				style={styles.textInput}
+				placeholder="Usuario"
 				onChangeText={text => setDocument(text)}
 				maxLength={11}
 				placeholderTextColor={colors.white}
@@ -252,8 +293,9 @@ export default function NewUser() {
      <LinkButton title='Voltar' onPress={navigateToBack} />
 			</View>
  </SafeAreaView>
- 
- );
+ 		<PageLoader fadeIn={900} fadeOut={450} data={['Aguarde...', 'Verificando Identidade', 'Criando perfil']} isActive={loading} action={() => functionAction()}/>
+
+ </>);
  }
  
  

@@ -28,12 +28,16 @@ export default function PageLoader(props) {
 	const [inOpen, setInOpen] = useState(false);
 	const fadeAnim = useRef(new Animated.Value(0)).current;
 	const fadeAnimScreen = useRef(new Animated.Value(0)).current;
+	
+	useEffect(() => {
+		setAction(props.data)
+	},[]);
 
   const fadeIn = () => {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 1000,
+      duration: props.fadeIn,
       useNativeDriver: true,
     }).start();
   };
@@ -42,11 +46,11 @@ export default function PageLoader(props) {
     // Will change fadeAnim value to 0 in 3 seconds
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 500,
+      duration: props.fadeOut,
       useNativeDriver: true,
     }).start();
   };
-	setTimeout(() => changeAnimation(), 1000)
+	setTimeout(() => changeAnimation(), props.fadeIn)
 
 	function changeAnimation(){
 		

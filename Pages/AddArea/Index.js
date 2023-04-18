@@ -33,7 +33,8 @@ const eyeOff = 'eye-off';
 
 
 export default function AddArea() {
-	const data = [
+
+	let data = [
     {
       "iD_AREA": 1,
       "descricao": "Sistemas de Informação"
@@ -109,8 +110,9 @@ export default function AddArea() {
   ]
   const [areaChoice, setAreaChoice] = useState([])
 	const [dataArea, setDataArea] = useState(data)
-	const [isStudent, setIsStudent] = useState(true)
+	const [isStudent, setIsStudent] = useState(false)
 	const [loading, setLoading] = useState(false);
+	const [newArea, setNewArea] = useState('');
 	const [functionAction, setFunctionAction] = useState(() => () => null);
 	const navigation = useNavigation();
 
@@ -149,12 +151,20 @@ export default function AddArea() {
 			navigation.navigate('Advisor');  
 		}
 	}
+	function handleAddArea(){
+		data.push({
+      "iD_AREA": data.length + 2,
+      "descricao": newArea
+    });
+		setDataArea(data);
+		setNewArea('');
+	}
   return (<>
 		<SafeAreaView style={styles.container}>
 			<View style={{backgroundColor: colors.white, borderRadius:8,justifyContent: 'center', alignItems: 'center',}}>
 				<View style={styles.infos}>
 					<Text style={styles.infosTitle}>Escolha a área</Text>
-					<Text style={styles.infosName}>Olá, Carlos!</Text>
+					<Text style={styles.infosName}>Olá, {isStudent ? 'Carlos': 'Maurício'}!</Text>
 					{isStudent ? (<Text style={styles.infosBody}>
 						Para ajudá-lo(a) a escolher a área ideal para o seu trabalho de conclusão de curso, listamos abaixo algumas opções comuns de áreas de pesquisa acadêmica.
 					</Text>)
@@ -199,8 +209,8 @@ export default function AddArea() {
 							<TextInput
 								style={styles.textInputPassword}
 								placeholder="Nova area"
-								// onChangeText={text => setSenha(text)}
-								// value={}
+								onChangeText={text => setNewArea(text)}
+								value={newArea}
 								placeholderTextColor={colors.blackGrey}
 							/>
 							<Feather
@@ -209,7 +219,7 @@ export default function AddArea() {
 								size={28}
 								color={colors.green}
 								
-								// onPress={handleChangeIcon}
+								onPress={handleAddArea}
 							/>
 						</View>
 					)}
@@ -221,7 +231,7 @@ export default function AddArea() {
 				</View>
 			</View>
 		</SafeAreaView>
-		<PageLoader isActive={loading} action={() => functionAction()}/>
+		<PageLoader fadeIn={1000} fadeOut={500} data={['Aguarde...', 'Enviando dados', 'Recebendo pacotes', 'Criando interface']} isActive={loading} action={() => functionAction()}/>
 		
 		</>
   );
