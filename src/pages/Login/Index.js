@@ -12,11 +12,11 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
 
-import MyButton  from '../../Components/MyButton/Index';
-import LinkButton from '../../Components/LinkButton/Index';
+import MyButton  from '../../components/MyButton/Index';
+import LinkButton from '../../components/LinkButton/Index';
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
+//import Loading from '../../components/Loading/Loading';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

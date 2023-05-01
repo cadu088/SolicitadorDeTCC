@@ -9,13 +9,13 @@ import {
 		Image
 } from 'react-native';
 
-import Accordion from '../../Components/Accordian/Index'
+import Accordion from '../../components/Accordian/Index'
 
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
+//import Loading from '../../components/Loading/Loading';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
 	},
 	advisors: {
 		width: '100%',
-		backgroundColor: colors.blackSpace,
+		backgroundColor: '#0B0B0B48',
 		// borderColor: colors.blackWhite,
 		// borderWidth: 1.5,
 		borderRadius: 8,

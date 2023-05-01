@@ -9,12 +9,12 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
 
-import MyButton  from '../../Components/MyButton/Index';
-import LinkButton from '../../Components/LinkButton/Index';
-import MenuBaseUser from '../../Components/MenuBaseUser/index';
+import MyButton  from '../../components/MyButton/Index';
+import LinkButton from '../../components/LinkButton/Index';
+import MenuBaseUser from '../../components/MenuBaseUser/index';
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
+//import Loading from '../../components/Loading/Loading';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -23,13 +23,13 @@ const eyeOff = 'eye-off';
 
 
 
-export default function Task() {
+export default function Msg() {
 
 
 
 return (
     <View style={styles.container}>
-				<Text>Task</Text>
+				<Text>MSG</Text>
     </View>
 
 );
@@ -39,7 +39,7 @@ return (
 const styles = StyleSheet.create({
 container: {
     flex: 1,
-    backgroundColor: colors.red,
+    backgroundColor: colors.blue,
     alignItems: 'center',
     justifyContent: 'center',
 },

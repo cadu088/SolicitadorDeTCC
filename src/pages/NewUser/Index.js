@@ -12,10 +12,10 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
-import PageLoader from '../../Components/PageLoader/index'
+import PageLoader from '../../components/PageLoader/index'
 
-import MyButton  from '../../Components/MyButton/Index';
-import LinkButton from '../../Components/LinkButton/Index';
+import MyButton  from '../../components/MyButton/Index';
+import LinkButton from '../../components/LinkButton/Index';
 import { launchImageLibrary } from "react-native-image-picker";
 
 import colors from '../../styles/colors';

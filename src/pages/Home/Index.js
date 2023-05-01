@@ -7,14 +7,14 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-import api from '../../services/api';
+import api from '../../ApiService/api';
 
-import MyButton  from '../../Components/MyButton/Index';
-import LinkButton from '../../Components/LinkButton/Index';
-import MenuBaseUser from '../../Components/MenuBaseUser/index';
+import MyButton  from '../../components/MyButton/Index';
+import LinkButton from '../../components/LinkButton/Index';
+import MenuBaseUser from '../../components/MenuBaseUser/index';
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
+//import Loading from '../../components/Loading/Loading';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -23,13 +23,14 @@ const eyeOff = 'eye-off';
 
 
 
-export default function List() {
+export default function Home() {
 
 
 
 return (
     <View style={styles.container}>
-				<Text>List</Text>
+			<MenuBaseUser type="student" dataImg="https://avatars.githubusercontent.com/u/72260079?v=4"/>
+        {/* <Text style={styles.textTitle}>Portal do aluno</Text> */}
     </View>
 
 );
@@ -39,7 +40,7 @@ return (
 const styles = StyleSheet.create({
 container: {
     flex: 1,
-    backgroundColor: colors.purple,
+    backgroundColor: colors.blackSpace,
     alignItems: 'center',
     justifyContent: 'center',
 },

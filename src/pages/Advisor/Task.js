@@ -9,47 +9,29 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
 
-import MyButton  from '../../Components/MyButton/Index';
-import LinkButton from '../../Components/LinkButton/Index';
-import MenuBaseUser from '../../Components/MenuBaseUser/index';
-import HeaderBase from '../../Components/HeaderBase/index';
+import MyButton  from '../../components/MyButton/Index';
+import LinkButton from '../../components/LinkButton/Index';
+import MenuBaseUser from '../../components/MenuBaseUser/index';
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
+//import Loading from '../../components/Loading/Loading';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const eye = 'eye';
 const eyeOff = 'eye-off';
 
-import Home from './Home';
-import List from './List';
-import Msg from './Msg';
-import Task from './Task';
 
 
+export default function Task() {
 
-export default function Index() {
-	const [ page, setPage ] = useState(0);
-	const pages = ['Home', 'List','Msg','Task'];
-
-	function handlePage(pageValue){
-		setPage(pageValue);
-	}
 
 
 return (
-		<>
-			<View style={styles.container}>
-				{pages[page] === 'Home' ? (<Home />) 
-					: pages[page] === 'List' ? (<List />)
-						: pages[page] === 'Msg' ? (<Msg />)
-					 		: pages[page] === 'Task' ? (<Task />): null}
-				
-			</View>
-			<MenuBaseUser type="student" pages={pages} pageValue={pages[page]} handlePage={(pageValue) => handlePage(pageValue)} />
-			<HeaderBase type="student" dataImg="https://avatars.githubusercontent.com/u/72260079?v=4" pages={pages} pageValue={pages[page]}/>
-		</>
+    <View style={styles.container}>
+				<Text>Task</Text>
+    </View>
+
 );
 }
 
@@ -57,9 +39,9 @@ return (
 const styles = StyleSheet.create({
 container: {
     flex: 1,
-    backgroundColor: colors.blackSpace,
-		width: '100%',
-		height: '100%',
+    backgroundColor: colors.red,
+    alignItems: 'center',
+    justifyContent: 'center',
 },
 textTitle: {
     color: 'red',

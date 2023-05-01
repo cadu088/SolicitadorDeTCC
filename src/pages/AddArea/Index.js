@@ -16,17 +16,17 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
 
-import PinButton  from '../../Components/PinButton/index';
-import LinkButton from '../../Components/LinkButton/Index';
-import imgEscolha from '../../assets/undraw_Landscape_photographer_5nvi.png'
+import PinButton  from '../../components/PinButton/index';
+import LinkButton from '../../components/LinkButton/Index';
+import imgEscolha from '../../../assets/undraw_Landscape_photographer_5nvi.png'
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
+//import Loading from '../../components/Loading/Loading';
 
 import { Switch } from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import MyButton  from '../../Components/MyButton/Index';
-import PageLoader from '../../Components/PageLoader/index'
+import MyButton  from '../../components/MyButton/Index';
+import PageLoader from '../../components/PageLoader/index'
 const eye = 'eye';
 const eyeOff = 'eye-off';
 

@@ -10,20 +10,20 @@ import {
 		ActivityIndicator
 } from 'react-native';
 
-import AccordianNotification from '../../Components/AccordianNotification/Index'
+import AccordianNotification from '../../components/AccordianNotification/Index'
 
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 
 import colors from '../../styles/colors';
-//import Loading from '../../Components/Loading/Loading';
+//import Loading from '../../components/Loading/Loading';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const eye = 'eye';
 const eyeOff = 'eye-off';
 
-import ButtonTCC from '../../Components/ButtonTCC/index'
+import ButtonTCC from '../../components/ButtonTCC/index'
 
 export default function Home() {
 
