@@ -25,7 +25,8 @@ export default {
 		blackGrey: '#373737',
 		blackSpace: '#222222',
 		blackIn: '#161616',
-		backgroundMenu: '#FFFFFF58',
+		// backgroundMenu: '#FFFFFF58',
+		backgroundMenu: '#00000058',
 		transparent: 'transparent'
   };
   

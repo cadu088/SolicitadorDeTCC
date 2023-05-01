@@ -32,7 +32,7 @@ export default class Accordian extends Component{
 										alt='self'
 										source={{ uri: this.state.dataImg }}
 									/>
-									<Text style={[this.state.expanded ? styles.titleOpen : styles.title, styles.font]}>
+									<Text style={[styles.title, styles.font]}>
 										{this.props.title}
 									</Text>
 								</View>
@@ -46,8 +46,8 @@ export default class Accordian extends Component{
 									<View style={styles.content}>
 										<Text>{this.props.data}</Text>    
 										<View style={styles.act}>
-											<Feather name="check-circle" size={20} color="green" onPress={() => this.props.response('createTCC')} />
-											<AntDesign name="infocirlceo" size={20} color="red" onPress={() => this.props.response('details')} />
+											<Feather name="check-circle" size={20} color="green" onPress={() => this.props.response()} />
+											{/* <AntDesign name="infocirlceo" size={20} color="red" onPress={() => this.props.response('details')} /> */}
 										</View>
 									</View>
                 </View>
@@ -68,13 +68,7 @@ const styles = StyleSheet.create({
 	title:{
 		fontSize: 14,
 		fontWeight:'bold',
-		color: Colors.white,
-		marginLeft: 10,
-	},
-	titleOpen:{
-		fontSize: 14,
-		fontWeight:'bold',
-		color: Colors.blackSpace,
+		color: Colors.blackGrey,
 		marginLeft: 10,
 	},
 	row:{
@@ -85,7 +79,7 @@ const styles = StyleSheet.create({
 		paddingLeft:8,
 		paddingRight:10,
 		alignItems:'center',
-		backgroundColor: Colors.blackWhite,
+		backgroundColor: Colors.white,
 		borderRadius: 100,
 		borderWidth: 0,
 	},
@@ -126,6 +120,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent:'space-between',
+		// paddingTop: 10
 		// backgroundColor: 'red',
 		// width: '80%'
 	},
@@ -139,7 +134,7 @@ const styles = StyleSheet.create({
 		width: 50,
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent:'space-between',
+		justifyContent:'flex-end',
 	}
     
 });

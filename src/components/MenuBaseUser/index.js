@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
     Text,
@@ -6,7 +6,8 @@ import {
 		Image,
     TouchableOpacity,
     TouchableOpacityProps,
-		Alert
+		Alert,
+		Keyboard
 } from 'react-native';
 import colors from '../../styles/colors';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -22,25 +23,43 @@ export default function MenuBaseUser(props) {
 		props.handlePage(props.pages.indexOf(page));
 	}
 
+	const [keyboardStatus, setKeyboardStatus] = useState('');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardStatus('shown');
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardStatus('hidden');
+    });
+
+    // return () => {
+    //   showSubscription.remove();
+    //   hideSubscription.remove();
+    // };
+  }, []);
+
     return (
         <>
-            <View style={styles.container}>
-							<Text onPress={() => handlePagesState('Home')}>
-								<ButtonSelectBar width={35} height={35} active={props.pageValue === "Home"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="home" size={25} color={props.pageValue === "Home" ? colors.blackSpace : colors.white} />} />
-							</Text>
+				{!Keyboard.isVisible() && (
+					<View style={styles.container}>
+					<Text onPress={() => handlePagesState('Home')}>
+						<ButtonSelectBar width={35} height={35} active={props.pageValue === "Home"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="home" size={25} color={props.pageValue === "Home" ? colors.blackSpace : colors.white} />} />
+					</Text>
 
-							<Text onPress={() => handlePagesState('Msg')}>
-								<ButtonSelectBar width={35} height={35} active={props.pageValue === "Msg"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="inbox" size={25} color={props.pageValue === "Msg" ? colors.blackSpace : colors.white}/>} />
-							</Text>
-							
-							<Text onPress={() => handlePagesState('List')}>
-								<ButtonSelectBar width={35} height={35} active={props.pageValue === "List"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="database" size={25} color={props.pageValue === "List" ? colors.blackSpace : colors.white} />} />
-							</Text>
+					<Text onPress={() => handlePagesState('Msg')}>
+						<ButtonSelectBar width={35} height={35} active={props.pageValue === "Msg"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="inbox" size={25} color={props.pageValue === "Msg" ? colors.blackSpace : colors.white}/>} />
+					</Text>
+					
+					<Text onPress={() => handlePagesState('List')}>
+						<ButtonSelectBar width={35} height={35} active={props.pageValue === "List"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="database" size={25} color={props.pageValue === "List" ? colors.blackSpace : colors.white} />} />
+					</Text>
 
-							<Text onPress={() => handlePagesState('Task')}>
-								<ButtonSelectBar width={35} height={35} active={props.pageValue === "Task"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="form" size={25} color={props.pageValue === "Task" ? colors.blackSpace : colors.white} />} />
-							</Text>
-						</View>
+					<Text onPress={() => handlePagesState('Task')}>
+						<ButtonSelectBar width={35} height={35} active={props.pageValue === "Task"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="form" size={25} color={props.pageValue === "Task" ? colors.blackSpace : colors.white} />} />
+					</Text>
+				</View>
+				)}
         </>
 
     );
