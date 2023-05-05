@@ -235,13 +235,8 @@ export default function NewUser() {
 			/>
 		)}
 
-<Text></Text>
-			{/* <br/> */}
-		
-		
- 
     
-<View style={styles.passwordContainer}>
+		<View style={styles.passwordContainer}>
          <TextInput
              style={styles.textInputPassword}
              placeholder="Senha"

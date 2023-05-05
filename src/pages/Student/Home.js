@@ -12,7 +12,7 @@ import WaitingAdvisor from '../../components/StudentComponents/WaitingAdvisor'
 export default function Home() {
 
 	const visu = ['advisors', 'createTCC', 'details']; 
-	const [stage, setStage] = useState(2);
+	const [stage, setStage] = useState(0);
 	const [advisor, setAdvisor] = useState({});
 
 	function handleStage(newVisu){

@@ -19,24 +19,7 @@ export function UserProvider({ children }) {
 	});
 
 	//inicialização
-	useEffect(() => {
-		const user = getUserStorage();
-		if(user === null){
-			navigation.navigate('Login'); 
-			return;
-		}
-		const now = new Date();
-		const savedDate = new Date(user.dt);
-		const diffInMilliseconds = now.getTime() - savedDate.getTime();
-		const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
-		if (diffInDays >= 2) {
-			clearUserStorage();
-			navigation.navigate('Login');  
-			clearUser();
-		}else{
-			setUser(user.id);
-		}
-	},[]);
+	useEffect(() => loadingData(),[]);
 
 	//Pega qualquer atualização do user
 	useEffect(() => {
@@ -48,6 +31,25 @@ export function UserProvider({ children }) {
 			navigation.navigate('Login'); 
 		}
 	},[user]);
+
+	async function loadingData(){
+		const user = await getUserStorage();
+		if(user === null){
+			useNavigation().navigate('Login'); 
+		}else{
+			const now = new Date();
+			const savedDate = new Date(user.dt);
+			const diffInMilliseconds = now.getTime() - savedDate.getTime();
+			const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
+			if (diffInDays >= 2) {
+				await clearUserStorage();
+				useNavigation().navigate('Login');  
+				clearUser();
+			}else{
+				await setUser(user.id);
+			}
+		}
+	}
 
 	function clearUser(){
 		setDataUser({
@@ -67,8 +69,8 @@ export function UserProvider({ children }) {
 	}
 
 	async function getUserStorage(){
-		const user = await JSON.parse(await AsyncStorage.getItem('@solicitaTCC:user'))
-		return user;
+		const user = await AsyncStorage.getItem('@solicitaTCC:user') 
+		return user != null ? await JSON.parse(user) : null;
 	}
 
 	async function clearUserStorage(){

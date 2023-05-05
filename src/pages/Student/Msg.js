@@ -1,29 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     TextInput,
     StyleSheet,
-    Text,
-    View
+    View,
+		SafeAreaView,
+		ScrollView,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/core';
-import api from '../../services/api';
-
-import MyButton  from '../../components/MyButton/Index';
-import LinkButton from '../../components/LinkButton/Index';
-import MenuBaseUser from '../../components/MenuBaseUser/index';
-
+import ChoicePeople from '../../components/MessagesComponents/ChoicePeople';
+import Chat from '../../components/MessagesComponents/Chat';
 import colors from '../../styles/colors';
-//import Loading from '../../components/Loading/Loading';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const eye = 'eye';
-const eyeOff = 'eye-off';
-
 
 
 export default function Msg() {
+	const [ chatPeople, setChatPeople ] = useState({});
+	const [ chatOpen, setChatOpen ] = useState(false);
 
 	const dataTeste = [{
 		'iD_PESSOA': 1,
@@ -47,10 +37,56 @@ export default function Msg() {
 		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png'
 	}]
 
+	function handleChoiceChat(people){
+		// alert(JSON.stringify(people));
+		setChatPeople(people);
+	}
+
+	function closeChat(){
+		setChatPeople({});
+	}
+
+	useEffect(() => {
+		if(chatPeople.iD_PESSOA){
+			setChatOpen(true);
+		}else{
+			setChatOpen(false);
+		}
+
+	},[chatPeople]);
 
 return (
     <View style={styles.container}>
-			<Text>MSG</Text>
+			<View style={{height: '10%', width: '100%'}}></View>
+			{!chatOpen && (
+				<View style={styles.listMSG}>
+				<SafeAreaView>
+					<ScrollView vertical={true}>
+						{dataTeste.map((item, index) => (
+							<ChoicePeople 
+								name={item.NOME} 
+								photo={item.IMG} 
+								lastNotification={item.DATA} 
+								notificationCount={index * 36}
+								date={new Date().getHours() + ':' + new Date().getMinutes()} 
+								key={index}
+								choice={() => handleChoiceChat(item)}
+							/>
+						))}
+					</ScrollView>
+				</SafeAreaView>
+			</View>
+			)}
+			
+			{chatOpen && (
+				<Chat 
+					name={chatPeople.NOME} 
+					photo={chatPeople.IMG} 
+					idPeople={chatPeople.iD_PESSOA}
+					closeChat={() => closeChat()}
+				/>
+			)}
+			
     </View>
 
 );
@@ -58,58 +94,19 @@ return (
 
 
 const styles = StyleSheet.create({
-container: {
-    flex: 1,
-    backgroundColor: colors.blue,
-    alignItems: 'center',
-    justifyContent: 'center',
-},
-textTitle: {
-    color: 'red',
-    fontSize: 28,
-    marginBottom: 8
-},
-textInput: {
-    height: 40,
-    borderColor: colors.gray,
-    borderRadius: 8,
-    borderWidth: 1,
-    width: '70%',
-    marginBottom: 16,
-    paddingHorizontal: 8
-},
-textInputPassword: {
-    height: 40,
-    borderWidth: 0,
-    width: '70%',
-    marginBottom: 16,
-    paddingHorizontal: 8
-},
-buttonIn: {
-    backgroundColor: colors.redButton,
-    borderRadius: 8,
-    height: 50,
-    width: '70%',
-    justifyContent: 'center',
-    alignItems: 'center'
-},
-buttonTextIn: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: 'bold'
-},
-passwordContainer: {
-    marginBottom: 16,
-    height: 40,
-    borderColor: '#dcdce6',
-    borderRadius: 8,
-    borderWidth: 1,
-    width: '70%',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-},
-iconEye: {
-    paddingHorizontal: 8,
-    marginTop: 6
-},
+	container: {
+		flex: 1,
+		backgroundColor: colors.gray,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	listMSG: {
+		backgroundColor: colors.gray,
+		width: '100%',
+		height: '90%',
+		paddingHorizontal: 8,
+		paddingTop: 10,
+		flexWrap:'wrap',
+		flexDirection: 'column',
+	}
 });

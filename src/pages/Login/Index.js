@@ -11,6 +11,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MyButton  from '../../components/MyButton/Index';
 import LinkButton from '../../components/LinkButton/Index';
@@ -113,9 +114,8 @@ useEffect(() => {
 },[]);
 
 return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 			{/* <StatusBar hidden={true} /> */}
-
 			<View style={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
 						<Image
 							style={styles.selfPhoto}
@@ -123,7 +123,7 @@ return (
 							source={{ uri: 'https://auth.uniaraxa.edu.br/app/Content/img/banner-logo-nova.png' }}
 						/>					
 			</View>
-			<Text style={styles.textTitle}>TRABALHOS DE CONCLUSÃO</Text>
+			<Text style={styles.textTitle}>TCC TASKER</Text>
 			<View style={styles.content}>
         {/* <Text style={styles.textTitle}></Text> */}
         <TextInput
@@ -164,7 +164,7 @@ return (
 					<Text style={styles.textPassword} onPress={() => navigation.navigate('Login')}>Esqueci minha senha</Text>
         
 				</View>
-    </View>
+    </SafeAreaView>
 
 );
 }

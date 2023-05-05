@@ -21,6 +21,7 @@ export default {
 		purple: '#6a1691',
 		purpleBlack: '#450463',
 
+		blackChat: '#EEEEEE',
 		blackWhite: '#545454',
 		blackGrey: '#373737',
 		blackSpace: '#222222',
