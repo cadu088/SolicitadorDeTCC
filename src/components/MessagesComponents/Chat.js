@@ -5,15 +5,15 @@ import {
 	View,
 	Image,
 	TouchableOpacity,
-	KeyboardAvoidingView,
 	Platform,
-	TextInput
+	TextInput,
+	Keyboard
 } from 'react-native';
 import colors from '../../styles/colors';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons'; 
-
+import Messages from './Messages'
 
 
 export default function Chat({
@@ -61,9 +61,10 @@ export default function Chat({
 			<View
 				style={{
 					width: '100%',
-					height: menssagenSendDescHeight + 20 > 120 ? '76%' : '85%',
+					// height: menssagenSendDescHeight + 20 > 120 ? '76%' : Keyboard.isVisible() === true ? '70%' : '80%',
 				}}
 			>
+				<Messages />
 
 			</View>
 
@@ -71,13 +72,15 @@ export default function Chat({
 			<View
 				style={{
 					width: '100%',
-					height: menssagenSendDescHeight + 20 > 120 ? 120 : menssagenSendDescHeight + 20,
+					height: menssagenSendDescHeight + 20 > 120 ? 120 : menssagenSendDescHeight + 30,
 					backgroundColor: colors.blackChat,
 					borderBottomLeftRadius: 8,
 					borderBottomRightRadius: 8,
 					flexDirection:'row',
 					alignItems: 'center',
 					paddingHorizontal: 10,
+					position: 'absolute',
+					bottom: 0,
 					// justifyContent: 'center',
 				}}
 			>
@@ -125,15 +128,14 @@ export default function Chat({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: colors.white,
-		width: '95%',
-		height: '80%',
+		width: '100%',
+		height: '100%',
 		borderRadius: 8,
-		marginBottom: '15%',
 		flexDirection:'column',
 	},
 	selfPhoto: {
-		width: 38,
-		height: 38,
+		width: 40,
+		height: 40,
 		borderRadius: 100,
 		padding:1,
 		marginLeft: 10
@@ -142,7 +144,8 @@ const styles = StyleSheet.create({
 	},
 	headerChat:{
 		width: '100%',
-		height: '7%',
+		paddingTop: 30,
+		height: 100,
 		backgroundColor: colors.blue,
 		alignItems: 'center',
 		justifyContent: 'flex-start',

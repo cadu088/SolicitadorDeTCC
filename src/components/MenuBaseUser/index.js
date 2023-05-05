@@ -12,6 +12,7 @@ import {
 import colors from '../../styles/colors';
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/core';
+import { useSystem } from '../../contexts/SystemContext';
 
 import ButtonSelectBar from '../ButtonSelectBar/Index'
 
@@ -19,29 +20,15 @@ import ButtonSelectBar from '../ButtonSelectBar/Index'
 
 export default function MenuBaseUser(props) {
 
+	const system = useSystem();
+
 	function handlePagesState(page){
 		props.handlePage(props.pages.indexOf(page));
 	}
 
-	const [keyboardStatus, setKeyboardStatus] = useState('');
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardStatus('shown');
-    });
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardStatus('hidden');
-    });
-
-    // return () => {
-    //   showSubscription.remove();
-    //   hideSubscription.remove();
-    // };
-  }, []);
-
     return (
         <>
-				{!Keyboard.isVisible() && (
+				{!Keyboard.isVisible() && (system.visibleMenu) &&(
 					<View style={styles.container}>
 					<Text onPress={() => handlePagesState('Home')}>
 						<ButtonSelectBar width={35} height={35} active={props.pageValue === "Home"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="home" size={25} color={props.pageValue === "Home" ? colors.blackSpace : colors.white} />} />

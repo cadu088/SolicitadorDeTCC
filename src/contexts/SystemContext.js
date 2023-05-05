@@ -1,9 +1,11 @@
-import { createContext, useEffect, useState, useRef } from "react";
+import { createContext, useEffect, useState, useRef, useContext} from "react";
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/core';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+
+import { Keyboard } from 'react-native'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -21,7 +23,9 @@ export function SystemProvider({ children }) {
   const responseListener = useRef();
 	const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
-  
+	const [	visibleMenu,setVisibleMenu ] = useState(true);
+	const [keyboardStatus, setKeyboardStatus] = useState('');
+
 	useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -94,9 +98,23 @@ export function SystemProvider({ children }) {
 		}
 	}
 
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardStatus('shown');
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardStatus('hidden');
+    });
+
+    // return () => {
+    //   showSubscription.remove();
+    //   hideSubscription.remove();
+    // };
+  }, []);
+
   return (
     <SystemContext.Provider
-      value={{ getTokenNotification, sendTokenForUser }}
+      value={{ getTokenNotification, sendTokenForUser, visibleMenu,setVisibleMenu }}
     >
       {children}
     </SystemContext.Provider>
@@ -104,3 +122,8 @@ export function SystemProvider({ children }) {
 }
 
 export default SystemContext;
+
+export const useSystem = () => {
+  const context = useContext(SystemContext);
+  return context;
+};

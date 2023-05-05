@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/core';
@@ -7,15 +7,16 @@ const UserContext = createContext({});
 
 export function UserProvider({ children }) {
 	const navigation = useNavigation();
+	const [ typeUser, setTypeUser ] = useState('Student');
   const [user, setDataUser] = useState({
 		id: 0,
-		name: '',
-		email: '',
-		photo: '',
-		type: '',
-		RA: null,
+		name: 'Carlos Rodrigues',
+		email: 'carlos@gmail',
+		photo: 'https://avatars.githubusercontent.com/u/72260079?v=4',
+		type: 'Student',
+		RA: '042700',
 		usuario: null,
-		dt: ''
+		dt: new Date(),
 	});
 
 	//inicialização
@@ -25,10 +26,13 @@ export function UserProvider({ children }) {
 	useEffect(() => {
 		if(user.type === 'Student'){
 			navigation.navigate('Student');  
+			setTypeUser('Student');
 		}else if (user.type === 'Advisor'){
 			navigation.navigate('Advisor');  
+			setTypeUser('Advisor');
 		}else{
 			navigation.navigate('Login'); 
+			setTypeUser('');
 		}
 	},[user]);
 
@@ -140,7 +144,7 @@ export function UserProvider({ children }) {
 	async function reloadingUser(){
 		const user = getUserStorage();
 		if(user === null){
-			navigation.navigate('Login'); 
+			// navigation.navigate('Login'); 
 			return;
 		}
 		setUser(user.id);
@@ -153,7 +157,8 @@ export function UserProvider({ children }) {
 				getPeople, 
 				getUserStorage, 
 				clearUserStorage, 
-				reloadingUser
+				reloadingUser,
+				typeUser
 			}}
     >
       {children}
@@ -162,3 +167,9 @@ export function UserProvider({ children }) {
 }
 
 export default UserContext;
+
+
+export const useUser = () => {
+  const context = useContext(UserContext);
+  return context;
+};

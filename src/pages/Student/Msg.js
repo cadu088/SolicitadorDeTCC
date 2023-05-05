@@ -5,16 +5,19 @@ import {
     View,
 		SafeAreaView,
 		ScrollView,
+		Text
 } from 'react-native';
 import ChoicePeople from '../../components/MessagesComponents/ChoicePeople';
 import Chat from '../../components/MessagesComponents/Chat';
 import colors from '../../styles/colors';
+import { useSystem } from '../../contexts/SystemContext';
+import { useChat } from '../../contexts/ChatContext';
 
 
 export default function Msg() {
-	const [ chatPeople, setChatPeople ] = useState({});
-	const [ chatOpen, setChatOpen ] = useState(false);
+	const { createChat, closeChat, typeChat, chatUser } = useChat();
 
+	
 	const dataTeste = [{
 		'iD_PESSOA': 1,
 		'NOME': 'Humberto Melo',
@@ -37,29 +40,34 @@ export default function Msg() {
 		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png'
 	}]
 
-	function handleChoiceChat(people){
-		// alert(JSON.stringify(people));
-		setChatPeople(people);
-	}
-
-	function closeChat(){
-		setChatPeople({});
-	}
-
-	useEffect(() => {
-		if(chatPeople.iD_PESSOA){
-			setChatOpen(true);
-		}else{
-			setChatOpen(false);
+	function handleChoiceChat(people){	
+		const user = {
+			id: people.iD_PESSOA,
+			name: people.NOME,
+			email: 'carlos@uniaraxa.edu',
+			photo: people.IMG,
+			type: 'Advisor',
+			RA: null,
+			usuario: 'teste.uni',
+			dt: new Date()
 		}
 
-	},[chatPeople]);
+		createChat(user);
+	}
+
+	
 
 return (
     <View style={styles.container}>
 			<View style={{height: '10%', width: '100%'}}></View>
-			{!chatOpen && (
 				<View style={styles.listMSG}>
+					<Text
+						style={{
+							fontSize: 20,
+							marginBottom: 5,
+							paddingBottom:1
+						}}
+					>| Caixa de Entrada</Text>
 				<SafeAreaView>
 					<ScrollView vertical={true}>
 						{dataTeste.map((item, index) => (
@@ -76,17 +84,6 @@ return (
 					</ScrollView>
 				</SafeAreaView>
 			</View>
-			)}
-			
-			{chatOpen && (
-				<Chat 
-					name={chatPeople.NOME} 
-					photo={chatPeople.IMG} 
-					idPeople={chatPeople.iD_PESSOA}
-					closeChat={() => closeChat()}
-				/>
-			)}
-			
     </View>
 
 );
@@ -96,7 +93,7 @@ return (
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.gray,
+		backgroundColor: colors.blue,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -104,7 +101,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.gray,
 		width: '100%',
 		height: '90%',
-		paddingHorizontal: 8,
+		paddingHorizontal: 5,
 		paddingTop: 10,
 		flexWrap:'wrap',
 		flexDirection: 'column',
