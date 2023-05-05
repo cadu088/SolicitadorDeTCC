@@ -15,6 +15,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
 
 import ButtonSelectBar from '../ButtonSelectBar/Index'
 
@@ -25,6 +26,17 @@ export default function HeaderBase(props) {
 	const navigation = useNavigation();
 	const [ img, setImg ] = useState({ uri: props.dataImg });
 
+	
+	async function schedulePushNotification() {
+		await Notifications.scheduleNotificationAsync({
+			content: {
+				title: "Você tem uma nova mensagem de Mauricio",
+				body: 'Here is the notification body',
+				data: { data: 'goes here' },
+			},
+			trigger: { seconds: 5 },
+		});
+	}
 
 	async function setLogoff(){
 		await AsyncStorage.setItem('@solicitaTCC:people', null); 
@@ -34,7 +46,7 @@ export default function HeaderBase(props) {
     return (
         <>
             <View style={styles.container}>
-							<Text onPress={() => setLogoff()}>
+							<Text onPress={() => schedulePushNotification()}>
 								{/*  {' '} */}
 								<ButtonSelectBar width={40} height={30} active={false} colorActive={colors.white} colorDisabled={colors.transparent} icon={<Ionicons name="ios-log-out-outline" size={25} color={colors.white} />} />
 							</Text>
@@ -48,12 +60,14 @@ export default function HeaderBase(props) {
 								style={styles.selfPhoto}
 								alt='self'
 								source={img}
+								onPress={async () => await schedulePushNotification()}
 							/>
 						</View>
         </>
 
     );
 }
+
 
 
 const styles = StyleSheet.create({

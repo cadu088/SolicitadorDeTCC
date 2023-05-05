@@ -25,11 +25,32 @@ const eyeOff = 'eye-off';
 
 export default function Msg() {
 
+	const dataTeste = [{
+		'iD_PESSOA': 1,
+		'NOME': 'Humberto Melo',
+		'DATA': 'Desenvolvimento de APIs, Sistemas Web e Mobile',
+		'IMG': 'https://files.uniaraxa.edu.br/assets/apps/lms/img/136-119.png'
+	},{
+		'iD_PESSOA': 2,
+		'NOME': 'Robinson Cruz',
+		'DATA': 'Banco de dados, desenvolvimento .NET',
+		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/255-636645696799475269.jpg'
+	},{
+		'iD_PESSOA': 3,
+		'NOME': 'Maurício Júnior',
+		'DATA': 'Inteligência Artificial, Internet das Coisas',
+		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/193-636687419898079554.jpg'
+	},{
+		'iD_PESSOA': 4,
+		'NOME': 'Renato Correa',
+		'DATA': 'Desenvolvimento de APIs, Sistemas Web',
+		'IMG': 'https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png'
+	}]
 
 
 return (
     <View style={styles.container}>
-				<Text>MSG</Text>
+			<Text>MSG</Text>
     </View>
 
 );
