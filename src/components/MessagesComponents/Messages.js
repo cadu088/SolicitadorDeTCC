@@ -13,40 +13,27 @@ import colors from '../../styles/colors';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons'; 
+import MessagesReceiver from './MessagesReceiver'
 
 
 
 export default function Messages({
-	dataReceiver,
-	dataIssuer
+	data,
+	receiver,
+	issuer
 }){
-
+	
 	const [ menssagenSend, setMenssagenSend ] = useState('');
 	const [ menssagenSendDescHeight, setMenssagenSendDescHeight ] = useState(0);
 
 	return (
-		<View style={styles.container} >
-			<View 
-				style={{
-					backgroundColor: colors.gray,
-					borderRadius: 10,
-					padding: 8,
-					maxWidth: '70%'
-				}}
-			>
-				<Text>AAAAAAAAAAAAAAA AAAAAA AAAAA AAAAAA AAAAAAAAAAAAAAAAA </Text>
-			</View>
-
-			<Text
-				style={{
-					paddingHorizontal: 8,
-					paddingVertical: 1,
-				}}
-			>
-				22:08
-			</Text>
+		<>
+			{data.map((item, index) => (
+				<MessagesReceiver key={index} data={item} isReceiver={item.iD_RECEPTOR === receiver} />
+			))}
 			
-		</View>
+			
+		</>
 	);
 }
 

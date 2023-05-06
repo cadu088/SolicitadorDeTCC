@@ -23,6 +23,7 @@ return (
 					photo={chatUser.photo} 
 					idPeople={chatUser.id}
 					closeChat={() => closeChat()}
+					loginPeople={1}
 				/>
 			</View>
 		</>

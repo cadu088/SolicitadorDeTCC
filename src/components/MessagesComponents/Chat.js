@@ -7,7 +7,9 @@ import {
 	TouchableOpacity,
 	Platform,
 	TextInput,
-	Keyboard
+	Keyboard,
+	SafeAreaView,
+	ScrollView
 } from 'react-native';
 import colors from '../../styles/colors';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -20,11 +22,115 @@ export default function Chat({
 	name,
 	photo,
 	idPeople,
-	closeChat
+	closeChat,
+	loginPeople
 }){
 
 	const [ menssagenSend, setMenssagenSend ] = useState('');
 	const [ menssagenSendDescHeight, setMenssagenSendDescHeight ] = useState(0);
+	
+	const dataMSG = [
+    {
+      "iD_MENSAGERIA": 1,
+      "iD_EMISSOR": 1,
+      "iD_RECEPTOR": 4,
+      "mensagem": [
+        {
+          "iD_MENSAGERIA": 1,
+          "dT_ENVIO": "06/05/2023 15:49:54",
+          "tipo": "TEXTO",
+          "mensagem": "Boa tarde Renato!",
+          "extensão": "",
+          "url": ""
+        },
+        {
+          "iD_MENSAGERIA": 1,
+          "dT_ENVIO": "06/05/2023 15:49:54",
+          "tipo": "TEXTO",
+          "mensagem": "Tudo bem?",
+          "extensão": "",
+          "url": ""
+        },
+        {
+          "iD_MENSAGERIA": 1,
+          "dT_ENVIO": "06/05/2023 15:49:54",
+          "tipo": "TEXTO",
+          "mensagem": "Preciso ver um negocio com você",
+          "extensão": "",
+          "url": ""
+        },
+        {
+          "iD_MENSAGERIA": 1,
+          "dT_ENVIO": "06/05/2023 15:49:54",
+          "tipo": "TEXTO",
+          "mensagem": "Podemos marcar uma reunião para amanha as 19h via meet, sobre como o PowerPoint deve ser",
+          "extensão": "",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "iD_MENSAGERIA": 2,
+      "iD_EMISSOR": 1,
+      "iD_RECEPTOR": 4,
+      "mensagem": [
+        {
+          "iD_MENSAGERIA": 2,
+          "dT_ENVIO": "06/05/2023 15:52:47",
+          "tipo": "TEXTO",
+          "mensagem": "Aguardo sua resposta!",
+          "extensão": "",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "iD_MENSAGERIA": 3,
+      "iD_EMISSOR": 4,
+      "iD_RECEPTOR": 1,
+      "mensagem": [
+        {
+          "iD_MENSAGERIA": 3,
+          "dT_ENVIO": "06/05/2023 16:01:13",
+          "tipo": "TEXTO",
+          "mensagem": "Boa tare Carlos!",
+          "extensão": "",
+          "url": ""
+        },
+        {
+          "iD_MENSAGERIA": 3,
+          "dT_ENVIO": "06/05/2023 16:01:13",
+          "tipo": "TEXTO",
+          "mensagem": "Podemos sim, fico no aguardo do invite!",
+          "extensão": "",
+          "url": ""
+        },
+        {
+          "iD_MENSAGERIA": 3,
+          "dT_ENVIO": "06/05/2023 16:01:13",
+          "tipo": "TEXTO",
+          "mensagem": "Até mais :)",
+          "extensão": "",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "iD_MENSAGERIA": 4,
+      "iD_EMISSOR": 1,
+      "iD_RECEPTOR": 4,
+      "mensagem": [
+        {
+          "iD_MENSAGERIA": 4,
+          "dT_ENVIO": "06/05/2023 16:32:16",
+          "tipo": "TEXTO",
+          "mensagem": "Obrigado",
+          "extensão": "",
+          "url": ""
+        }
+      ]
+    }
+  ]
 
 	return (
 		<View style={styles.container} >
@@ -64,7 +170,11 @@ export default function Chat({
 					// height: menssagenSendDescHeight + 20 > 120 ? '76%' : Keyboard.isVisible() === true ? '70%' : '80%',
 				}}
 			>
-				<Messages />
+				<SafeAreaView vertical={true}>
+					<ScrollView vertical={true}>
+						<Messages data={dataMSG} issuer={loginPeople} receiver={idPeople}  />
+					</ScrollView>
+				</SafeAreaView>
 
 			</View>
 
