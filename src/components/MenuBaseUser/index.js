@@ -38,9 +38,9 @@ export default function MenuBaseUser(props) {
 						<ButtonSelectBar width={35} height={35} active={props.pageValue === "Msg"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="inbox" size={25} color={props.pageValue === "Msg" ? colors.blackSpace : colors.white}/>} />
 					</Text>
 					
-					<Text onPress={() => handlePagesState('List')}>
+					{/* <Text onPress={() => handlePagesState('List')}>
 						<ButtonSelectBar width={35} height={35} active={props.pageValue === "List"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="database" size={25} color={props.pageValue === "List" ? colors.blackSpace : colors.white} />} />
-					</Text>
+					</Text> */}
 
 					<Text onPress={() => handlePagesState('Task')}>
 						<ButtonSelectBar width={35} height={35} active={props.pageValue === "Task"} colorActive={colors.white} colorDisabled={colors.transparent} icon={<AntDesign name="form" size={25} color={props.pageValue === "Task" ? colors.blackSpace : colors.white} />} />
@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
   container: {
 		padding: 5,
 		backgroundColor: colors.backgroundMenu,
-		width: '50%',
+		width: '35%',
 		height: 45,
-		marginLeft: 100,
-		marginRight: 40,
+		// marginLeft: 130,
+		// marginRight: 40,
 		borderRadius: 100,
 		// borderWidth: 1,
 		// borderColor: colors.white,
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		position: 'absolute',
 		bottom: 20,
+		alignSelf:'center'
 	},
 	selfPhoto: {
 		width: 35,
