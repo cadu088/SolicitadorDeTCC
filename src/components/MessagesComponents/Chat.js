@@ -16,6 +16,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons'; 
 import Messages from './Messages'
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default function Chat({
@@ -133,8 +134,13 @@ export default function Chat({
   ]
 
 	return (
-		<View style={styles.container} >
-			<View style={styles.headerChat}>
+		<View
+			style={styles.container}
+			>
+				<View
+				
+				style={styles.headerChat}
+				>
 				<TouchableOpacity 
 					onPress={() => closeChat()}
 					style={{
@@ -183,7 +189,7 @@ export default function Chat({
 				style={{
 					width: '100%',
 					height: menssagenSendDescHeight + 20 > 120 ? 120 : menssagenSendDescHeight + 30,
-					backgroundColor: colors.blackChat,
+					backgroundColor: colors.blackWhite,
 					borderBottomLeftRadius: 8,
 					borderBottomRightRadius: 8,
 					flexDirection:'row',
@@ -200,8 +206,8 @@ export default function Chat({
 						borderWidth: 0,
 						width: '70%',
 						paddingHorizontal: 8,
-						color: colors.blackSpace,
-						backgroundColor: colors.white,
+						color: colors.gray,
+						backgroundColor: '#00000045',
 						borderRadius: 8,
 						fontSize:16,
 						textAlign: 'left',
@@ -212,7 +218,7 @@ export default function Chat({
 					value={menssagenSend}
 					multiline={true}
 					numberOfLines={4}
-					placeholderTextColor={colors.blackSpace}
+					placeholderTextColor={colors.gray}
 					onContentSizeChange={(e) => setMenssagenSendDescHeight(e.nativeEvent.contentSize.height + 24)}
 				/>
 				<View
@@ -237,7 +243,7 @@ export default function Chat({
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: colors.white,
+		backgroundColor: colors.blackSpace,
 		width: '100%',
 		height: '100%',
 		borderRadius: 8,
@@ -256,7 +262,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		paddingTop: 30,
 		height: 100,
-		backgroundColor: colors.blue,
+		backgroundColor: '#F4F4F415',
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		flexDirection: 'row',

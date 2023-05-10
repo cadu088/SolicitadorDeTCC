@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "app-exemplo",
-    "slug": "app-exemplo",
+    "name": "ATCC Management",
+    "slug": "ATCC Management",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./banner-logo-nova.png",
       "resizeMode": "contain",
       "backgroundColor": "#154fa3"
     },
@@ -22,12 +22,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/banner-logo-nova.png",
         "backgroundColor": "#154fa3"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/banner-logo-nova.png"
     }
   }
 }

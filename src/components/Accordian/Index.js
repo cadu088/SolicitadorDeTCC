@@ -44,7 +44,12 @@ export default class Accordian extends Component{
                 this.state.expanded &&
                 <View style={styles.child}>
 									<View style={styles.content}>
-										<Text>{this.props.data}</Text>    
+										<Text 
+											style={{
+												fontSize: 17,
+												maxWidth: '90%'
+											}}
+										>{this.props.data}</Text>    
 										<View style={styles.act}>
 											<Feather name="check-circle" size={20} color="green" onPress={() => this.props.response()} />
 											{/* <AntDesign name="infocirlceo" size={20} color="red" onPress={() => this.props.response('details')} /> */}

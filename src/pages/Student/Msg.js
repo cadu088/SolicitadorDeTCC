@@ -12,6 +12,8 @@ import Chat from '../../components/MessagesComponents/Chat';
 import colors from '../../styles/colors';
 import { useSystem } from '../../contexts/SystemContext';
 import { useChat } from '../../contexts/ChatContext';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons'; 
 
 
 export default function Msg() {
@@ -58,16 +60,26 @@ export default function Msg() {
 	
 
 return (
-    <View style={styles.container}>
-			<View style={{height: '10%', width: '100%'}}></View>
+		<View
+		style={styles.container}
+		>
 				<View style={styles.listMSG}>
-					<Text
-						style={{
-							fontSize: 20,
-							marginBottom: 5,
-							paddingBottom:1
-						}}
-					>| Caixa de Entrada</Text>
+				<LinearGradient
+					colors={['rgba(5,23,111,1)', 'rgba(24,95,240,1)']}
+					start={{ x: 0.2, y: 0.4 }}
+					style={{
+						width: '100%',
+						height: 100,
+						borderRadius: 8,
+						border: 'none',
+						alignItems:'center',
+						justifyContent: 'center',
+						marginBottom: 20,
+					
+					}}
+				>
+					<Ionicons name="chatbox-ellipses-outline" size={60} color="white" />
+				</LinearGradient>
 				<SafeAreaView>
 					<ScrollView vertical={true}>
 						{dataTeste.map((item, index) => (
@@ -93,16 +105,16 @@ return (
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.blue,
+		// backgroundColor: colors.blue,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	listMSG: {
-		backgroundColor: colors.gray,
-		width: '100%',
+		backgroundColor: colors.blackSpace,
+		width: '95%',
 		height: '90%',
-		paddingHorizontal: 5,
-		paddingTop: 10,
+		// paddingHorizontal: 5,
+		paddingTop: 55,
 		flexWrap:'wrap',
 		flexDirection: 'column',
 	}

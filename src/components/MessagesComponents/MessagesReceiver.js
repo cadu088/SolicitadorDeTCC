@@ -79,7 +79,7 @@ export default function MessagesReceiver({
 					<Text
 						key={index}
 						style={{
-							backgroundColor: colors.gray,
+							backgroundColor: '#F4F4F415',
 							borderRadius: 12,
 							// padding: 8,
 							paddingLeft: isReceiver ? 10 : 15,
@@ -88,7 +88,8 @@ export default function MessagesReceiver({
 							maxWidth: '90%',
 							alignSelf: isReceiver ? "flex-end" : "flex-start" ,
 							marginVertical: 2,
-							fontSize: 16
+							fontSize: 16,
+							color: colors.gray
 						}}
 						
 					>{item.mensagem}</Text>
@@ -99,6 +100,7 @@ export default function MessagesReceiver({
 				style={{
 					paddingHorizontal: 8,
 					paddingVertical: 1,
+					color: colors.blackWhite
 				}}
 			>
 				{dataEnvio(data.mensagem[0].dT_ENVIO)}

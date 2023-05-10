@@ -8,6 +8,7 @@ import {
 import Chat from '../../components/MessagesComponents/Chat';
 import colors from '../../styles/colors';
 import { useChat } from '../../contexts/ChatContext';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 
@@ -17,7 +18,11 @@ export default function Index() {
 
 return (
 		<>
-			<View style={styles.container}>
+			<LinearGradient
+				colors={['rgba(5,23,111,1)', 'rgba(24,95,240,1)']}
+				start={{ x: 0.8, y: 0.4 }}
+				style={styles.container}
+				>
         <Chat 
 					name={chatUser.name} 
 					photo={chatUser.photo} 
@@ -25,7 +30,7 @@ return (
 					closeChat={() => closeChat()}
 					loginPeople={1}
 				/>
-			</View>
+			</LinearGradient>
 		</>
 );
 }

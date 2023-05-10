@@ -8,6 +8,7 @@ import colors from '../../styles/colors';
 import AdvisorList from '../../components/StudentComponents/AdvisorList'
 import SendRequestAdvisor from '../../components/StudentComponents/SendRequestAdvisor'
 import WaitingAdvisor from '../../components/StudentComponents/WaitingAdvisor'
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home() {
 
@@ -87,7 +88,11 @@ export default function Home() {
 	}
 
 return (
-    <View style={styles.container}>
+    <LinearGradient
+		colors={['rgba(5,23,111,1)', 'rgba(24,95,240,1)']}
+		start={{ x: 0.8, y: 0.4 }}
+		style={styles.container}
+		>
 			{visu[stage] === 'advisors' && (
 				<>
 					<AdvisorList data={dataTeste} selected={(dataSelect) => handleAdvisor(dataSelect)}   />
@@ -109,7 +114,7 @@ return (
 			)}
 
 			{visu[stage] === 'details' && (<WaitingAdvisor data={dataTesteWaiting} />)}
-    </View>
+    </LinearGradient>
 
 );
 }
@@ -118,7 +123,7 @@ return (
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.blue,
+		// backgroundColor: colors.blue,
 		alignItems: 'center',
 		// justifyContent: 'center',
 		width: '100%',

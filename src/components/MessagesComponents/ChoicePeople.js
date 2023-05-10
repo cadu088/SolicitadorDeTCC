@@ -39,14 +39,14 @@ export default function ChoicePeople({
 						}}>
 							<Text style={{
 								fontSize: 20,
-								color: colors.blackGrey
+								color: colors.white
 							}}>
 								{name}
 							</Text>
 
 							<Text style={{
 								fontSize: 15,
-								color: colors.blackWhite
+								color: colors.gray
 							}}>
 								{lastNotification.slice(0,45) + (lastNotification.length > 45 ? '...' : '')}
 							</Text>
@@ -59,14 +59,14 @@ export default function ChoicePeople({
 
 				<View style={styles.arrow}>
 					<Text style={{
-						color: colors.blue,
+						color: colors.gray,
 						marginBottom: 4
 					}}>
 						{date}
 					</Text>
 					{/* <AntDesign name="right" size={24} color={colors.white} /> */}
 					<View style={{
-						backgroundColor: colors.blue,
+						backgroundColor: colors.green_dark,
 						width: 20,
 						height: 20,
 						alignItems: "center",
@@ -90,7 +90,7 @@ export default function ChoicePeople({
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: colors.white,
+		backgroundColor: '#F4F4F415',
 		width: '100%',
 		height: 65,
 		borderRadius: 8,
