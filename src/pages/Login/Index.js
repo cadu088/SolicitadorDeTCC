@@ -7,6 +7,7 @@ import {
   Linking,
   StatusBar,
   Image,
+  Keyboard,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
@@ -22,6 +23,7 @@ import colors from "../../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUser } from "../../contexts/UserContext";
+import { useSystem } from "../../contexts/SystemContext";
 
 const eye = "eye";
 const eyeOff = "eye-off";
@@ -34,7 +36,8 @@ export default function Login() {
   const navigation = useNavigation();
   const [flLoading, setLoading] = useState(false);
   const userLogin = useUser();
-
+  const userSystem = useSystem();
+  // keyboardStatus
   function handleChangeIcon() {
     let icone = iconPass == eye ? eyeOff : eye;
     let flShowPassAux = !flShowPass;
@@ -94,9 +97,9 @@ export default function Login() {
     }
   }
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
   return (
     <LinearGradient
@@ -105,15 +108,27 @@ export default function Login() {
       style={styles.container}
     >
       {/* <StatusBar hidden={true} /> */}
-      <View
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image style={styles.selfPhoto} alt="logo" source={imgLogo} />
-      </View>
+      {!Keyboard.isVisible() ? (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image style={styles.selfPhoto} alt="logo" source={imgLogo} />
+        </View>
+      ) : (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 100,
+          }}
+        ></View>
+      )}
+
       <Text style={styles.textTitle}>ATC ManagemenT</Text>
       <View style={styles.content}>
         {/* <Text style={styles.textTitle}></Text> */}
@@ -188,7 +203,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blackSpace,
     alignItems: "center",
     // justifyContent: 'center',
-    borderRadius: 8,
+    // borderRadius: 8,
+    borderTopStartRadius: 8,
+    borderTopEndRadius: 8,
     color: colors.white,
     height: 50,
     paddingTop: 20,

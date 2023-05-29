@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Keyboard } from "react-native";
 import colors from "../../styles/colors";
 import AdvisorList from "../../components/StudentComponents/AdvisorList";
 import SendRequestAdvisor from "../../components/StudentComponents/SendRequestAdvisor";
 import WaitingAdvisor from "../../components/StudentComponents/WaitingAdvisor";
+import InfoWork from "../../components/StudentComponents/InfoWork";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function Home() {
-  const visu = ["advisors", "createTCC", "details"];
-  const [stage, setStage] = useState(0);
+  const visu = ["advisors", "createTCC", "details", "infoWork"];
+  const [stage, setStage] = useState(3);
   const [advisor, setAdvisor] = useState({});
 
   function handleStage(newVisu) {
@@ -101,7 +102,11 @@ export default function Home() {
 
   return (
     <LinearGradient
-      colors={["rgba(5,23,111,1)", "rgba(24,95,240,1)"]}
+      colors={
+        visu[stage] === "infoWork"
+          ? ["rgba(34,34,34,1)", "rgba(34,34,34,1)"]
+          : ["rgba(5,23,111,1)", "rgba(24,95,240,1)"]
+      }
       start={{ x: 0.8, y: 0.4 }}
       style={styles.container}
     >
@@ -138,6 +143,7 @@ export default function Home() {
       )}
 
       {visu[stage] === "details" && <WaitingAdvisor data={dataTesteWaiting} />}
+      {visu[stage] === "infoWork" && <InfoWork data={dataTesteWaiting} />}
     </LinearGradient>
   );
 }
@@ -154,7 +160,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   infos: {
-    marginTop: 40,
+    marginTop: Keyboard.isVisible ? 20 : 40,
     width: "100%",
     // backgroundColor: colors.blackSpace,
     // borderColor: colors.blackWhite,

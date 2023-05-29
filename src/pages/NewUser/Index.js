@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Keyboard,
   TextInput,
   StyleSheet,
   Text,
@@ -139,22 +140,18 @@ export default function NewUser() {
   function camposPrenchidos() {
     let validacoes = [];
     let retorno = true;
-    // if (txtName.trim() === '') {
-    //     validacoes.push('Campo Nome é obrigatório');
-    //     retorno = false;
-    // }
-    // if (txtEmail.trim() === '') {
-    //     validacoes.push('Campo Email é obrigatório');
-    //     retorno = false;
-    // }
+    if (txtName.trim() === "") {
+      validacoes.push("Campo Nome é obrigatório");
+      retorno = false;
+    }
+    if (txtEmail.trim() === "") {
+      validacoes.push("Campo Email é obrigatório");
+      retorno = false;
+    }
     setListErrors(validacoes);
     return retorno;
   }
 
-  /*    function navigateToBack() {
-         navigation.goBack();
-     }
- */
   function navigateToBack() {
     navigation.goBack();
   }
@@ -172,26 +169,27 @@ export default function NewUser() {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
-          <View>
-            {/* <Text style={styles.textTitle}>Adicione uma foto</Text> */}
-
-            <View
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 20,
-              }}
-            >
-              {/* <LinkButton title='Adicionar'onPress={onFromPickerImage} /> */}
-              <TouchableOpacity
-                onPress={async () => await handleChoosePhoto()}
-                color="#841584"
+          {!Keyboard.isVisible() && (
+            <View>
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 20,
+                }}
               >
-                <Image style={styles.selfPhoto} alt="self" source={isSelf} />
-              </TouchableOpacity>
+                {/* <LinkButton title='Adicionar'onPress={onFromPickerImage} /> */}
+                <TouchableOpacity
+                  onPress={async () => await handleChoosePhoto()}
+                  color="#841584"
+                >
+                  <Image style={styles.selfPhoto} alt="self" source={isSelf} />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          )}
+
           <TextInput
             style={styles.textInput}
             placeholder="Nome"
@@ -296,9 +294,12 @@ export default function NewUser() {
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => <Text>{item}</Text>}
           />
-          <MyButton title="Avançar" onPress={handlePostNewStudent} />
-
-          <LinkButton title="Voltar" onPress={navigateToBack} />
+          {!Keyboard.isVisible() && (
+            <>
+              <MyButton title="Avançar" onPress={handlePostNewStudent} />
+              <LinkButton title="Voltar" onPress={navigateToBack} />
+            </>
+          )}
         </View>
       </SafeAreaView>
       <PageLoader

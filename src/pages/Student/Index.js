@@ -31,22 +31,30 @@ export default function Index() {
   const navigation = useNavigation();
   const user = useUser();
 
+  useEffect(() => loadPage(), []);
+
   function handlePage(pageValue) {
     setPage(pageValue);
   }
 
+  async function loadPage() {
+    console.log("Loading");
+    setUserData(await user.getUserStorage());
+  }
+
   async function getArea() {
-    var userData = await user.getUserStorage();
+    var usuario = await user.getUserStorage();
+    setUserData(usuario);
     try {
-      console.log(userData);
       await api
-        .post("/area/getPeople", { iD_PESSOA: userData.id.toString() })
+        .post("/area/getPeople", { iD_PESSOA: usuario.id.toString() })
         .then((response) => {
-          console.log(response);
           if (response.data.result.length <= 0) {
             navigation.navigate("AddArea");
           }
         });
+      //   const u = await user.getUserStorage();
+      console.log("uuuu", usuario);
     } catch (e) {
       console.log(e.response.data.mensagem);
       if (

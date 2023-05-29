@@ -27,6 +27,8 @@ export default function HeaderBase(props) {
   const [img, setImg] = useState({ uri: props.dataImg });
   const userLogin = useUser();
 
+  useEffect(() => setImg({ uri: props.dataImg }), [props.dataImg]);
+
   async function schedulePushNotification(msg) {
     await Notifications.scheduleNotificationAsync({
       content: {

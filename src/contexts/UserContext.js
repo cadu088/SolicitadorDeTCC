@@ -38,7 +38,8 @@ export function UserProvider({ children }) {
 
   async function loadingData() {
     const user = await getUserStorage();
-    if (user === null) {
+    if (user.id === null) {
+      console.log("user", user);
       useNavigation().navigate("Login");
     } else {
       const now = new Date();
