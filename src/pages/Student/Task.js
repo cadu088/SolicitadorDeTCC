@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -7,31 +7,22 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/core";
-import api from "../../services/api";
 import { LinearGradient } from "expo-linear-gradient";
-
-import MyButton from "../../components/MyButton/Index";
-import LinkButton from "../../components/LinkButton/Index";
-import MenuBaseUser from "../../components/MenuBaseUser/index";
-
 import colors from "../../styles/colors";
-//import Loading from '../../components/Loading/Loading';
-import { AntDesign } from "@expo/vector-icons";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import TaskList from "../../components/StudentComponents/TaskList";
 import ModalTaskListDetails from "../../components/StudentComponents/ModalTaskListDetails";
-
-const eye = "eye";
-const eyeOff = "eye-off";
+import { useUser } from "../../contexts/UserContext";
+import { useSystem } from "../../contexts/SystemContext";
+import api from "../../services/api";
 
 export default function Task() {
   const [modalVisible, setModalVisible] = useState(false);
   const [showData, setShowData] = useState(0);
+  const [project, setProject] = useState([]);
+  const [taskList, setTaskList] = useState([]);
+  const user = useUser();
+  const system = useSystem();
 
   const variações = [
     ["#833ab4", "#fd1d1d", "#fcb045"],
@@ -78,6 +69,72 @@ export default function Task() {
     setShowData(id);
   }
 
+  async function loadingPage() {
+    system.setPageLoading(true);
+    var usuario = await user.getUserStorage();
+    try {
+      let project = 0;
+
+      try {
+        await api
+          .post("/worker/getProject", {
+            iD_ALUNO: usuario.id,
+            iD_PROFESSOR: 0,
+          })
+          .then((response) => {
+            console.log("getProject", response.data.result[0].iD_PROJETO);
+            setProject(response.data.result);
+            project = response.data.result[0].iD_PROJETO;
+          });
+      } catch (e) {
+        console.log(e);
+        if (
+          e.response.data.mensagem ==
+          "Nenhuma solcitação para esses parametros!"
+        ) {
+          project = 0;
+        } else {
+          alert("Erro ao buscar solcitação");
+          project = 0;
+        }
+      }
+
+      if (project === 0) {
+        setTaskList([]);
+      } else {
+        try {
+          await api
+            .post("/worker/getTask", {
+              iD_PROJETO: project,
+            })
+            .then((response) => {
+              console.log("getTask", response);
+              setTaskList(response.data.result);
+            });
+        } catch (e) {
+          console.log(e);
+          if (
+            e.response.data.mensagem == "Nenhuma tarefa para esses parametros!"
+          ) {
+            setTaskList([]);
+          } else {
+            alert("Erro ao buscar solcitação");
+            setTaskList([]);
+          }
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    }
+    system.setPageLoading(false);
+  }
+
+  useEffect(() => {
+    loadingPage();
+    return () => {};
+  }, []);
+
   return (
     <>
       <View style={styles.container}>
@@ -107,13 +164,30 @@ export default function Task() {
                 alignContent: "center",
               }}
             >
-              {dataTeste.map((item, index) => (
-                <TaskList
-                  key={index}
-                  data={item}
-                  selected={() => onOpenModal(index)}
-                />
-              ))}
+              {taskList.length > 0 ? (
+                taskList.map((item, index) => (
+                  <TaskList
+                    key={index}
+                    data={item}
+                    project={project[0]}
+                    selected={() => onOpenModal(index)}
+                  />
+                ))
+              ) : (
+                <View
+                  style={{
+                    width: 500,
+                    // height: "100%",
+                    // backgroundColor: "red",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ color: colors.white, fontSize: 18 }}>
+                    Olá! Você ainda não tem tarefas cadastradas!
+                  </Text>
+                </View>
+              )}
             </View>
             <Text></Text>
             <Text></Text>
@@ -123,11 +197,13 @@ export default function Task() {
         </SafeAreaView>
       </View>
 
-      <ModalTaskListDetails
-        data={dataTeste[showData]}
-        isOpen={modalVisible}
-        onClose={(state) => setModalVisible(state)}
-      />
+      {taskList[showData] && (
+        <ModalTaskListDetails
+          data={taskList[showData]}
+          isOpen={modalVisible}
+          onClose={(state) => setModalVisible(state)}
+        />
+      )}
     </>
   );
 }

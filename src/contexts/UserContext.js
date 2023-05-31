@@ -20,7 +20,10 @@ export function UserProvider({ children }) {
   });
 
   //inicialização
-  useEffect(() => loadingData(), []);
+  useEffect(() => {
+    loadingData();
+    return () => {};
+  }, []);
 
   //Pega qualquer atualização do user
   useEffect(() => {
@@ -34,6 +37,7 @@ export function UserProvider({ children }) {
       navigation.navigate("Login");
       setTypeUser("");
     }
+    return () => {};
   }, [user]);
 
   async function loadingData() {

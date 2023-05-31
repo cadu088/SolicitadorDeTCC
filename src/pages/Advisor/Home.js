@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -9,22 +9,13 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import ModalProjectListDetails from "../../components/AdvisorComponents/ModalProjectListDetails";
 
 import AccordianNotification from "../../components/AccordianNotification/Index";
-
-import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-
 import colors from "../../styles/colors";
-//import Loading from '../../components/Loading/Loading';
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const eye = "eye";
-const eyeOff = "eye-off";
-
+import { useUser } from "../../contexts/UserContext";
+import { useSystem } from "../../contexts/SystemContext";
+import api from "../../services/api";
 import ButtonTCC from "../../components/ButtonTCC/index";
 
 export default function Home() {
@@ -35,9 +26,10 @@ export default function Home() {
   const [loadingNotification, setLoadingNotification] = useState(false);
   const [modalSolici, setModalSolici] = useState(false);
   const [peopleSetSolici, setPeopleSetSolici] = useState(0);
+  const [requests, setRequests] = useState([]);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const user = useUser();
+  const system = useSystem();
 
   function handleStage(newVisu, dataAdvisor) {
     setStage(visu.indexOf(newVisu));
@@ -125,18 +117,77 @@ export default function Home() {
     setPeopleSetSolici(index);
   }
 
+  async function loadingPage() {
+    system.setPageLoading(true);
+    var usuario = await user.getUserStorage();
+    try {
+      await api
+        .post("/worker/getRequests", {
+          iD_ALUNO: 0,
+          iD_PROFESSOR: usuario.id,
+        })
+        .then((response) => {
+          setRequests(
+            response.data.result.filter((item) => item.iD_SITUACAO === 1)
+          );
+        });
+    } catch (e) {
+      if (
+        e.response.data.mensagem == "Nenhuma solcitação para esses parametros!"
+      ) {
+        setRequests([]);
+      } else {
+        alert("Erro ao buscar solcitação");
+        setRequests([]);
+      }
+    }
+    system.setPageLoading(false);
+  }
+
+  async function confirmRequest(id, advisor, student) {
+    console.log(id, advisor, student);
+    system.setPageLoading(true);
+    try {
+      await api
+        .post("/worker/createProject", {
+          iD_ALUNO: student,
+          iD_PROFESSOR: advisor,
+          iD_SOLICITACAO: id,
+        })
+        .then((response) => {
+          // console.log(response);
+          setModalSolici(false);
+          loadingPage();
+        });
+    } catch (e) {
+      if (
+        e.response.data.mensagem == "Nenhuma solcitação para esses parametros!"
+      ) {
+        // setRequests([]);
+      } else {
+        alert(e);
+      }
+    }
+    system.setPageLoading(false);
+  }
+
+  useEffect(() => {
+    loadingPage();
+    return () => {};
+  }, []);
+
   return (
     <>
-      <LinearGradient
-        colors={["rgba(5,23,111,1)", "rgba(24,95,240,1)"]}
-        start={{ x: 0.8, y: 0.4 }}
+      <View
+        // colors={["rgba(5,23,111,1)", "rgba(24,95,240,1)"]}
+        // start={{ x: 0.8, y: 0.4 }}
         style={styles.container}
       >
         <View
           style={{
             width: "100%",
             height: 400,
-            backgroundColor: "#0B0B0B48",
+            backgroundColor: "#F4F4F415",
             borderRadius: 8,
             padding: 8,
           }}
@@ -157,19 +208,34 @@ export default function Home() {
               >
                 Solicitações de orientação
               </Text>
-              <SafeAreaView style={{ height: 350, borderRadius: 8 }}>
-                <ScrollView vertical={true} style={{ borderRadius: 8 }}>
-                  {listSolici.map((item, index) => (
-                    <ButtonTCC
-                      name={item.aluno.nome}
-                      title={item.nome}
-                      img={item.aluno.img}
-                      key={item.iD_SOLICITACAO}
-                      onClick={() => openModal(index)}
-                    />
-                  ))}
-                </ScrollView>
-              </SafeAreaView>
+              {requests.length > 0 ? (
+                <SafeAreaView style={{ height: 350, borderRadius: 8 }}>
+                  <ScrollView vertical={true} style={{ borderRadius: 8 }}>
+                    {requests.map((item, index) => (
+                      <ButtonTCC
+                        name={item.aluno.nome}
+                        title={item.nome}
+                        img={item.aluno.img}
+                        key={item.iD_SOLICITACAO}
+                        onClick={() => openModal(index)}
+                      />
+                    ))}
+                  </ScrollView>
+                </SafeAreaView>
+              ) : (
+                <View
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ color: colors.white, fontSize: 15 }}>
+                    Você ainda não tem solicitações...
+                  </Text>
+                </View>
+              )}
             </>
           )}
         </View>
@@ -179,7 +245,7 @@ export default function Home() {
             marginTop: 15,
             width: "100%",
             height: 95,
-            backgroundColor: "#0B0B0B48",
+            backgroundColor: "#F4F4F415",
             borderRadius: 8,
             padding: 5,
             borderColor: colors.white,
@@ -256,13 +322,13 @@ export default function Home() {
             marginTop: 15,
             width: "100%",
             height: 150,
-            backgroundColor: "#0B0B0B48",
+            backgroundColor: "#F4F4F415",
             borderRadius: 8,
             padding: 5,
             alignItems: "center",
             justifyContent: "center",
-            borderColor: "#0B0B0B70",
-            borderWidth: 2,
+            // borderColor: "#0B0B0B70",
+            // borderWidth: 2,
           }}
         >
           <View style={styles.infos}>
@@ -279,12 +345,17 @@ export default function Home() {
 					source={{ uri: 'https://site.uniaraxa.edu.br/wp-content/uploads/2023/02/Banner-I-Pre-Classificados.jpg' }}
 				/> */}
         </View>
-      </LinearGradient>
-      <ModalProjectListDetails
-        data={listSolici[peopleSetSolici]}
-        isOpen={modalSolici}
-        onClose={(state) => setModalSolici(state)}
-      />
+      </View>
+      {requests[peopleSetSolici] && (
+        <ModalProjectListDetails
+          data={requests[peopleSetSolici]}
+          isOpen={modalSolici}
+          onClose={(state) => setModalSolici(state)}
+          acpeted={(id, advisor, student) =>
+            confirmRequest(id, advisor, student)
+          }
+        />
+      )}
     </>
   );
 }
@@ -292,7 +363,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.blue,
+    backgroundColor: colors.blackSpace,
     alignItems: "center",
     // justifyContent: 'center',
     width: "100%",

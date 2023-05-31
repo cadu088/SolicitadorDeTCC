@@ -47,7 +47,7 @@ export default function AddArea() {
   }
 
   useEffect(() => {
-    if (user.id) {
+    if (user && user.id) {
       setIsStudent(user.type === "Student");
     }
   }, [user]);
@@ -62,6 +62,7 @@ export default function AddArea() {
 
   useEffect(() => {
     onLoading();
+    return () => {};
   }, []);
 
   async function handleAreaChoice() {
@@ -78,6 +79,7 @@ export default function AddArea() {
     } catch (e) {
       alert(e);
     }
+    setTimeout(() => {}, 1000);
     setFunctionAction(() => () => goHome());
     setTimeout(() => setLoading(false), 7000);
   }
@@ -124,24 +126,26 @@ export default function AddArea() {
             alignItems: "center",
           }}
         >
-          <View style={styles.infos}>
-            <Text style={styles.infosTitle}>Escolha a área</Text>
-            <Text style={styles.infosName}>Olá, {user.name}!</Text>
-            {isStudent ? (
-              <Text style={styles.infosBody}>
-                Para ajudá-lo(a) a escolher a área ideal para o seu trabalho de
-                conclusão de curso, listamos abaixo algumas opções comuns de
-                áreas de pesquisa acadêmica.
-              </Text>
-            ) : (
-              <Text style={styles.infosBody}>
-                Obrigado por se inscrever em nosso sistema de orientação de TCC.
-                Para ajudá-lo a encontrar alunos em áreas de pesquisa que
-                correspondam às suas habilidades e experiência, listamos abaixo
-                algumas áreas comuns de pesquisa acadêmica.{" "}
-              </Text>
-            )}
-          </View>
+          {user && (
+            <View style={styles.infos}>
+              <Text style={styles.infosTitle}>Escolha a área</Text>
+              <Text style={styles.infosName}>Olá, {user.name}!</Text>
+              {isStudent ? (
+                <Text style={styles.infosBody}>
+                  Para ajudá-lo(a) a escolher a área ideal para o seu trabalho
+                  de conclusão de curso, listamos abaixo algumas opções comuns
+                  de áreas de pesquisa acadêmica.
+                </Text>
+              ) : (
+                <Text style={styles.infosBody}>
+                  Obrigado por se inscrever em nosso sistema de orientação de
+                  TCC. Para ajudá-lo a encontrar alunos em áreas de pesquisa que
+                  correspondam às suas habilidades e experiência, listamos
+                  abaixo algumas áreas comuns de pesquisa acadêmica.{" "}
+                </Text>
+              )}
+            </View>
+          )}
 
           <Image
             style={{ width: 200, height: 240, justifyContent: "center" }}

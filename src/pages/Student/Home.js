@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Keyboard } from "react-native";
 import colors from "../../styles/colors";
 import AdvisorList from "../../components/StudentComponents/AdvisorList";
@@ -6,89 +6,25 @@ import SendRequestAdvisor from "../../components/StudentComponents/SendRequestAd
 import WaitingAdvisor from "../../components/StudentComponents/WaitingAdvisor";
 import InfoWork from "../../components/StudentComponents/InfoWork";
 import { LinearGradient } from "expo-linear-gradient";
+import { useUser } from "../../contexts/UserContext";
+import { useSystem } from "../../contexts/SystemContext";
+import api from "../../services/api";
+import { useNavigation } from "@react-navigation/core";
 
 export default function Home() {
   const visu = ["advisors", "createTCC", "details", "infoWork"];
-  const [stage, setStage] = useState(3);
+  const [stage, setStage] = useState(9);
   const [advisor, setAdvisor] = useState({});
+  const [requests, setRequests] = useState([]);
+  const [project, setProject] = useState([]);
+  const [listAdvisor, setListAdvisor] = useState([]);
+  const user = useUser();
+  const system = useSystem();
+  const navigation = useNavigation();
 
   function handleStage(newVisu) {
     setStage(visu.indexOf(newVisu));
   }
-
-  const dataTeste = [
-    {
-      iD_PESSOA: 1,
-      NOME: "Humberto Melo",
-      DATA: "Desenvolvimento de APIs, Sistemas Web e Mobile",
-      IMG: "https://files.uniaraxa.edu.br/assets/apps/lms/img/136-119.png",
-    },
-    {
-      iD_PESSOA: 2,
-      NOME: "Robinson Cruz",
-      DATA: "Banco de dados, desenvolvimento .NET",
-      IMG: "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/255-636645696799475269.jpg",
-    },
-    {
-      iD_PESSOA: 3,
-      NOME: "Maurício Júnior",
-      DATA: "Inteligência Artificial, Internet das Coisas",
-      IMG: "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/193-636687419898079554.jpg",
-    },
-    {
-      iD_PESSOA: 4,
-      NOME: "Renato Correa",
-      DATA: "Desenvolvimento de APIs, Sistemas Web",
-      IMG: "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png",
-    },
-    {
-      iD_PESSOA: 5,
-      NOME: "Renato Correa",
-      DATA: "Desenvolvimento de APIs, Sistemas Web",
-      IMG: "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png",
-    },
-    {
-      iD_PESSOA: 6,
-      NOME: "Renato Correa",
-      DATA: "Desenvolvimento de APIs, Sistemas Web",
-      IMG: "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png",
-    },
-  ];
-
-  const dataTesteWaiting = [
-    {
-      ID: 1,
-      iD_PESSOA: 1,
-      NOME: "Humberto Melo",
-      DATA: "Desenvolvimento de APIs, Sistemas Web e Mobile",
-      OrientadorIMG:
-        "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png",
-      iD_SOLICITACAO: 3,
-      AlunoNOME: "Mariana Cortez",
-      TITULO:
-        "Desenvolvimento de uma extensão de App Inventor para avaliação de interfaces de aplicativos utilizando Machine Learning Mostrar registro completo",
-      DESCRICAO:
-        "	Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada. ",
-      AlunoIMG:
-        "https://thumbs.dreamstime.com/b/imagem-do-perfil-das-raparigas-uma-ilustrada-loiras-num-fundo-branco-177134443.jpg",
-    },
-    {
-      ID: 2,
-      iD_PESSOA: 1,
-      NOME: "Humberto Melo",
-      DATA: "Desenvolvimento de APIs, Sistemas Web e Mobile",
-      OrientadorIMG:
-        "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/61-636645895338423567.png",
-      iD_SOLICITACAO: 3,
-      AlunoNOME: "Mariana Cortez",
-      TITULO:
-        "Desenvolvimento de uma extensão de App Inventor para avaliação de interfaces de aplicativos utilizando Machine Learning Mostrar registro completo",
-      DESCRICAO:
-        "	Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada. ",
-      AlunoIMG:
-        "https://thumbs.dreamstime.com/b/imagem-do-perfil-das-raparigas-uma-ilustrada-loiras-num-fundo-branco-177134443.jpg",
-    },
-  ];
 
   function handleAdvisor(newAdvisor) {
     setAdvisor(newAdvisor);
@@ -100,10 +36,125 @@ export default function Home() {
     handleStage("advisors");
   }
 
+  async function loadingPage() {
+    system.setPageLoading(true);
+    var usuario = await user.getUserStorage();
+    try {
+      let resultrequest = "";
+      try {
+        await api
+          .post("/worker/getRequests", {
+            iD_ALUNO: usuario.id,
+            iD_PROFESSOR: 0,
+          })
+          .then((response) => {
+            setRequests(response.data.result);
+            resultrequest = "details";
+          });
+      } catch (e) {
+        if (
+          e.response.data.mensagem ==
+          "Nenhuma solcitação para esses parametros!"
+        ) {
+          resultrequest = "advisors";
+          await listinAdvisor(usuario);
+        } else {
+          alert("Erro ao buscar solcitação");
+          resultrequest = "erro";
+        }
+      }
+
+      let resultproject = "";
+
+      try {
+        await api
+          .post("/worker/getProject", {
+            iD_ALUNO: usuario.id,
+            iD_PROFESSOR: 0,
+          })
+          .then((response) => {
+            setProject(response.data.result);
+            resultproject = "infoWork";
+          });
+      } catch (e) {
+        if (
+          e.response.data.mensagem ==
+          "Nenhuma solcitação para esses parametros!"
+        ) {
+          resultproject = "state";
+        } else {
+          alert("Erro ao buscar solcitação");
+          resultproject = "erro";
+        }
+      }
+
+      if (resultrequest === "erro" || resultproject === "erro") {
+        system.setPageLoading(false);
+
+        return;
+      }
+      if (resultproject === "state") {
+        setStage(visu.indexOf(resultrequest));
+      } else {
+        setStage(visu.indexOf(resultproject));
+      }
+    } catch (e) {
+      alert(e);
+    }
+    system.setPageLoading(false);
+  }
+
+  async function listinAdvisor(usuario) {
+    try {
+      await api
+        .post("/worker/getAdvisor", {
+          iD_PESSOA: usuario.id,
+        })
+        .then((response) => {
+          setListAdvisor(response.data.result);
+        });
+    } catch (e) {
+      if (
+        e.response.data.mensagem ==
+        "Nenhum professor foi encontrado para esse usuario!"
+      ) {
+        setListAdvisor([]);
+        navigation.navigate("AddArea");
+      } else {
+        alert(e);
+      }
+    }
+  }
+
+  async function sendRequest(iD_PESSOA, description, title) {
+    console.log(iD_PESSOA, description, title);
+    system.setPageLoading(true);
+    var usuario = await user.getUserStorage();
+    const data = {
+      iD_ALUNO: usuario.id,
+      iD_PROFESSOR: iD_PESSOA,
+      nome: title,
+      descricao: description,
+    };
+    try {
+      await api.post("/worker/sendRequest", data).then(async (response) => {
+        await loadingPage();
+      });
+    } catch (e) {
+      alert(e.response.data.mensagem);
+    }
+    system.setPageLoading(false);
+  }
+
+  useEffect(() => {
+    loadingPage();
+    return () => {};
+  }, []);
+
   return (
     <LinearGradient
       colors={
-        visu[stage] === "infoWork"
+        visu[stage] === "infoWork" || stage === 9
           ? ["rgba(34,34,34,1)", "rgba(34,34,34,1)"]
           : ["rgba(5,23,111,1)", "rgba(24,95,240,1)"]
       }
@@ -113,7 +164,7 @@ export default function Home() {
       {visu[stage] === "advisors" && (
         <>
           <AdvisorList
-            data={dataTeste}
+            data={listAdvisor}
             selected={(dataSelect) => handleAdvisor(dataSelect)}
           />
           <View style={styles.infos}>
@@ -131,6 +182,9 @@ export default function Home() {
           <SendRequestAdvisor
             selectAdvisor={advisor}
             close={() => backAdvisor()}
+            sendRequest={(iD_PESSOA, description, title) =>
+              sendRequest(iD_PESSOA, description, title)
+            }
           />
           <View style={styles.infos}>
             <Text style={styles.infosTitle}>Complete os dados do TCC</Text>
@@ -142,8 +196,10 @@ export default function Home() {
         </>
       )}
 
-      {visu[stage] === "details" && <WaitingAdvisor data={dataTesteWaiting} />}
-      {visu[stage] === "infoWork" && <InfoWork data={dataTesteWaiting} />}
+      {visu[stage] === "details" && requests && (
+        <WaitingAdvisor data={requests} />
+      )}
+      {visu[stage] === "infoWork" && project && <InfoWork data={project} />}
     </LinearGradient>
   );
 }

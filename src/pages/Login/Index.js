@@ -24,19 +24,20 @@ import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUser } from "../../contexts/UserContext";
 import { useSystem } from "../../contexts/SystemContext";
+import loading from "../../../assets/loading.gif";
 
 const eye = "eye";
 const eyeOff = "eye-off";
 
 export default function Login() {
-  const [flShowPass, setShowPass] = useState(false);
-  const [iconPass, setIconPass] = useState(eye);
+  const [flShowPass, setShowPass] = useState(true);
+  const [iconPass, setIconPass] = useState(eyeOff);
   const [txtLogin, setLogin] = useState("");
   const [txtSenha, setSenha] = useState("");
   const navigation = useNavigation();
   const [flLoading, setLoading] = useState(false);
   const userLogin = useUser();
-  const userSystem = useSystem();
+  const system = useSystem();
   // keyboardStatus
   function handleChangeIcon() {
     let icone = iconPass == eye ? eyeOff : eye;
@@ -54,13 +55,13 @@ export default function Login() {
       alert("Campo senha é obrigatório");
       return;
     }
-    setLoading(true);
+    system.setPageLoading(true);
 
     if (!(await userLogin.setUserLogin(txtLogin, txtSenha))) {
       return;
     }
 
-    setLoading(false);
+    system.setPageLoading(false);
   }
 
   function navigateToNewUser() {
@@ -102,79 +103,90 @@ export default function Login() {
   // }, []);
 
   return (
-    <LinearGradient
-      colors={["rgba(5,23,111,1)", "rgba(24,95,240,1)"]}
-      start={{ x: 0.8, y: 0.4 }}
-      style={styles.container}
-    >
-      {/* <StatusBar hidden={true} /> */}
-      {!Keyboard.isVisible() ? (
-        <View
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image style={styles.selfPhoto} alt="logo" source={imgLogo} />
-        </View>
-      ) : (
-        <View
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: 100,
-          }}
-        ></View>
-      )}
+    <>
+      <LinearGradient
+        colors={["rgba(5,23,111,1)", "rgba(24,95,240,1)"]}
+        start={{ x: 0.8, y: 0.4 }}
+        style={styles.container}
+      >
+        {/* <StatusBar hidden={true} /> */}
+        {!Keyboard.isVisible() ? (
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image style={styles.selfPhoto} alt="logo" source={imgLogo} />
+          </View>
+        ) : (
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 100,
+            }}
+          ></View>
+        )}
 
-      <Text style={styles.textTitle}>ATC ManagemenT</Text>
-      <View style={styles.content}>
-        {/* <Text style={styles.textTitle}></Text> */}
-        <TextInput
-          style={styles.textInput}
-          placeholder="Login"
-          onChangeText={(text) => setLogin(text)}
-          value={txtLogin}
-          placeholderTextColor={colors.white}
-        />
-        <View style={styles.passwordContainer}>
+        <Text style={styles.textTitle}>ATC ManagemenT</Text>
+        <View style={styles.content}>
+          {/* <Text style={styles.textTitle}></Text> */}
           <TextInput
-            style={styles.textInputPassword}
-            placeholder="Senha"
-            onChangeText={(text) => setSenha(text)}
-            value={txtSenha}
-            secureTextEntry={flShowPass}
+            style={styles.textInput}
+            placeholder="Login"
+            onChangeText={(text) => setLogin(text)}
+            value={txtLogin}
             placeholderTextColor={colors.white}
           />
-          <Feather
-            style={styles.iconEye}
-            name={iconPass}
-            size={28}
-            color={colors.purple}
-            onPress={handleChangeIcon}
-          />
-        </View>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.textInputPassword}
+              placeholder="Senha"
+              onChangeText={(text) => setSenha(text)}
+              value={txtSenha}
+              secureTextEntry={flShowPass}
+              placeholderTextColor={colors.white}
+            />
+            <Feather
+              style={styles.iconEye}
+              name={iconPass}
+              size={28}
+              color={colors.purple}
+              onPress={handleChangeIcon}
+            />
+          </View>
 
-        <MyButton title="Entrar" onPress={navigateToHome} />
+          <MyButton title="Entrar" onPress={navigateToHome} />
 
-        {/* <LinkButton title='Inscrever-se'
+          {/* <LinkButton title='Inscrever-se'
             onPress={navigateToNewUser}
         /> */}
 
-        {/* <br/> */}
-        <Text style={styles.textInsc} onPress={navigateToNewUser}>
-          Inscrever-se
-        </Text>
-        <Text
-          style={styles.textPassword}
-          onPress={() => navigation.navigate("Login")}
-        >
-          Esqueci minha senha
-        </Text>
-      </View>
-    </LinearGradient>
+          {/* <br/> */}
+          <Text style={styles.textInsc} onPress={navigateToNewUser}>
+            Inscrever-se
+          </Text>
+          <Text
+            style={styles.textPassword}
+            onPress={() => navigation.navigate("Login")}
+          >
+            Esqueci minha senha
+          </Text>
+        </View>
+      </LinearGradient>
+      {system.pageLoading && (
+        <View style={styles.containerLoading}>
+          <Image
+            style={{ height: 50, width: 50 }}
+            alt="self"
+            source={loading}
+          />
+        </View>
+      )}
+    </>
   );
 }
 
@@ -281,5 +293,23 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: colors.white,
     backgroundColor: colors.blackGrey,
+  },
+  containerLoading: {
+    padding: 5,
+    backgroundColor: "#0B0B0BA6",
+    width: "100%",
+    height: "100%",
+    // marginLeft: 130,
+    // marginRight: 40,
+    // borderRadius: 100,
+    // borderWidth: 1,
+    // borderColor: colors.white,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    // bottom: 20,
+    alignSelf: "center",
   },
 });

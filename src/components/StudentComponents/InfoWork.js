@@ -19,47 +19,7 @@ import { Entypo } from "@expo/vector-icons";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function InfoWork({}) {
-  const data = [
-    {
-      iD_PROJETO: 5,
-      iD_SOLICITACAO: 4,
-      aluno: {
-        iD_PESSOA: 1,
-        nome: "CARLOS RODRIGUES",
-        iD_TIPO_PESSOA: 2,
-        email: "carloseduardors088@gmail.com",
-        ra: "042700",
-        usuario: "",
-        img: "https://avatars.githubusercontent.com/u/72260079?v=4",
-        fL_ATIVO: 1,
-      },
-      professor: {
-        iD_PESSOA: 3,
-        nome: "Robinson Cruz",
-        iD_TIPO_PESSOA: 1,
-        email: "robin",
-        ra: "NULL",
-        usuario: "robinson.cruz",
-        img: "https://sec.uniaraxa.edu.br/assets/lms/Pessoa/255-636645696799475269.jpg",
-        fL_ATIVO: 1,
-      },
-      iD_SITUACAO_PROJETO: 5,
-      situacaO_PROJETO: "AGUARDANDO CORREÇÃO",
-      dT_INICIO: "24/05/2023 22:33:38",
-      dT_FIM: "12/12/2023 00:00:00",
-      nome: "A POLÍTICA DE ASSISTÊNCIA SOCIAL À LUZ DA VIGILÂNC",
-      descricao:
-        "Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa sceler",
-      dT_APROVACAO: "",
-      dT_REPROVACAO: "",
-      justificativa: "",
-      pessoA_CANCELAMENTO: null,
-      dT_CADASTRO: "24/05/2023 22:33:38",
-      fL_ATIVO: 1,
-    },
-  ];
-
+export default function InfoWork({ data }) {
   function item(name, value) {
     return (
       <>

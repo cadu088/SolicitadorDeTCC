@@ -24,6 +24,7 @@ export function SystemProvider({ children }) {
   const [notification, setNotification] = useState(false);
   const [visibleMenu, setVisibleMenu] = useState(true);
   const [keyboardStatus, setKeyboardStatus] = useState("");
+  const [pageLoading, setPageLoading] = useState(false);
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
@@ -117,7 +118,7 @@ export function SystemProvider({ children }) {
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("hidden");
     });
-
+    return () => {};
     // return () => {
     //   showSubscription.remove();
     //   hideSubscription.remove();
@@ -132,6 +133,8 @@ export function SystemProvider({ children }) {
         visibleMenu,
         setVisibleMenu,
         keyboardStatus,
+        pageLoading,
+        setPageLoading,
       }}
     >
       {children}

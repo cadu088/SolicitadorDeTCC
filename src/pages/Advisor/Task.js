@@ -107,13 +107,13 @@ export default function Task() {
                 alignContent: "center",
               }}
             >
-              {dataTeste.map((item, index) => (
+              {/* {dataTeste.map((item, index) => (
                 <TaskList
                   key={index}
                   data={item}
                   selected={() => onOpenModal(index)}
                 />
-              ))}
+              ))} */}
             </View>
             <Text></Text>
             <Text></Text>

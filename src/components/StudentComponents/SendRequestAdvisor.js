@@ -9,12 +9,17 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../styles/colors";
 import { Feather } from "@expo/vector-icons";
 
-export default function SendRequestAdvisor({ selectAdvisor, close }) {
+export default function SendRequestAdvisor({
+  selectAdvisor,
+  close,
+  sendRequest,
+}) {
   const [inputDescHeight, setInputDescHeight] = useState(24);
   const [inputTitleHeight, setInputTitleHeight] = useState(24);
 
@@ -25,6 +30,18 @@ export default function SendRequestAdvisor({ selectAdvisor, close }) {
     setTitle("");
     setDescription("");
   }, [selectAdvisor]);
+
+  function verifyInput(iD_PESSOA, description, title) {
+    if (description.length < 79) {
+      alert("O campo descrição deve ter pelo menos 80 caracteres!");
+      return;
+    }
+    if (title === "") {
+      alert("O campo titulo não pode ser vazio!");
+      return;
+    }
+    sendRequest(iD_PESSOA, description, title);
+  }
 
   return (
     <View style={styles.advisors}>
@@ -113,13 +130,18 @@ export default function SendRequestAdvisor({ selectAdvisor, close }) {
             <Image
               style={styles.selfPhoto}
               alt="self"
-              source={{ uri: selectAdvisor.IMG }}
+              source={{ uri: selectAdvisor.img }}
             />
             <Text style={{ color: colors.white, fontWeight: "bold" }}>
-              {selectAdvisor.NOME}
+              {selectAdvisor.nome}
             </Text>
           </View>
-          <View style={styles.buttonSend}>
+          <TouchableOpacity
+            style={styles.buttonSend}
+            onPress={() =>
+              verifyInput(selectAdvisor.iD_PESSOA, description, title)
+            }
+          >
             <Feather name="send" size={20} color="white" />
             <Text
               style={{
@@ -131,7 +153,7 @@ export default function SendRequestAdvisor({ selectAdvisor, close }) {
             >
               Enviar
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

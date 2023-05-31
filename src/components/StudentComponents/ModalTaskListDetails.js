@@ -105,7 +105,7 @@ export default function ModalTaskListDetails({ data, isOpen, onClose }) {
               }}
             >
               <LinearGradient
-                colors={data.color}
+                colors={["rgba(0,116,117,1)", "rgba(232,232,232,1)"]}
                 start={{ x: 0.1, y: 0.2 }}
                 style={{
                   width: "100%",
@@ -138,12 +138,31 @@ export default function ModalTaskListDetails({ data, isOpen, onClose }) {
                   marginTop: 10,
                 }}
               >
-                {data.title}
+                {data.titulo}
               </Text>
+              <Text
+                numberOfLines={5}
+                ellipsizeMode="clip"
+                lineBreakMode="clip"
+                style={{
+                  color: colors.white,
+                  fontSize: 18,
+                  width: "100%",
+                  fontWeight: "bold",
+                  textAlign: "justify",
+                  maxWidth: "100%",
+                  marginTop: -1,
+                }}
+              >
+                <Text style={{ fontWeight: "700", color: colors.blue_light }}>
+                  {data.etapa}
+                </Text>
+              </Text>
+              <Text></Text>
 
               <Text
                 style={{
-                  color: colors.gray,
+                  color: colors.white,
                   fontSize: 15,
                   width: "55%",
                   // fontWeight: 'bold',
@@ -151,17 +170,48 @@ export default function ModalTaskListDetails({ data, isOpen, onClose }) {
                   height: 50,
                   alignSelf: "stretch",
                   marginTop: 5,
+                  fontWeight: "700",
                 }}
               >
-                {data.dt}
+                Inicio:{" "}
+                <Text style={{ fontWeight: "400", color: colors.gray }}>
+                  {data.dT_INICIO}
+                </Text>
                 {"\n"}
-                {data.people}
+                Finalização:{" "}
+                <Text style={{ fontWeight: "400", color: colors.gray }}>
+                  {data.dT_PREVISTA}
+                </Text>
+                {"\n"}
+                Cadastrada em:{" "}
+                <Text style={{ fontWeight: "400", color: colors.gray }}>
+                  {data.dT_CADASTRO}
+                </Text>
+              </Text>
+
+              <Text
+                numberOfLines={5}
+                ellipsizeMode="clip"
+                lineBreakMode="clip"
+                style={{
+                  color: colors.white,
+                  fontSize: 25,
+                  width: "100%",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  maxWidth: "100%",
+                  marginTop: 20,
+                }}
+              >
+                <Text style={{ fontWeight: "700", color: colors.blue_light }}>
+                  Descrição
+                </Text>
               </Text>
             </View>
             <View
               style={{
                 width: "100%",
-                height: "60%",
+                height: "50%",
                 // backgroundColor: colors.white,
                 padding: 5,
               }}

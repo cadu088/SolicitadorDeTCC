@@ -18,7 +18,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function ModalProjectListDetails({ data, isOpen, onClose }) {
+export default function ModalProjectListDetails({
+  data,
+  isOpen,
+  onClose,
+  acpeted,
+}) {
   const [justification, setJustification] = useState("");
   return (
     <Modal
@@ -269,7 +274,13 @@ export default function ModalProjectListDetails({ data, isOpen, onClose }) {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => onClose(!isOpen)}
+              onPress={() =>
+                acpeted(
+                  data.iD_SOLICITACAO,
+                  data.professor.iD_PESSOA,
+                  data.aluno.iD_PESSOA
+                )
+              }
               style={{
                 backgroundColor: colors.green_dark,
                 width: 100,
