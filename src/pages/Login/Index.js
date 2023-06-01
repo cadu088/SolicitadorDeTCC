@@ -58,6 +58,7 @@ export default function Login() {
     system.setPageLoading(true);
 
     if (!(await userLogin.setUserLogin(txtLogin, txtSenha))) {
+      system.setPageLoading(false);
       return;
     }
 

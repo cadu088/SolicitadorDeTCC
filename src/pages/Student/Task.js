@@ -33,37 +33,6 @@ export default function Task() {
     ["rgba(0,116,117,1)", "rgba(232,232,232,1)"],
   ];
 
-  const dataTeste = [
-    {
-      title: "Crie um Google Forms sobre a população",
-      descricao:
-        "Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada.",
-      dt: "Criado em 22/05/2023 às 23:05",
-      people: "Renato Correa",
-      color: ["rgba(0,116,117,1)", "rgba(232,232,232,1)"],
-      conclud: true,
-    },
-    {
-      title: "Analise profunda da prospecção do ar",
-      descricao:
-        "Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada.",
-      dt: "Criado em 05/05/2023 às 18:01",
-      people: "Renato Correa",
-      color: ["#21D4FD", "#B721FF"],
-      conclud: false,
-    },
-    {
-      title:
-        "Crie um banco de dados NoSQL para armazenar todos os dados do trabalho",
-      descricao:
-        "Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada.",
-      dt: "Criado em 05/05/2023 às 18:01",
-      people: "Renato Correa",
-      color: ["#833ab4", "#fd1d1d", "#fcb045"],
-      conclud: false,
-    },
-  ];
-
   function onOpenModal(id) {
     setModalVisible(true);
     setShowData(id);

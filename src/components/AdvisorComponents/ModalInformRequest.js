@@ -18,12 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function ModalProjectListDetails({
-  data,
-  isOpen,
-  onClose,
-  acpeted,
-}) {
+export default function ModalInformRequest({ data, isOpen, onClose, acpeted }) {
   const [justification, setJustification] = useState("");
   return (
     <Modal

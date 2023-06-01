@@ -7,21 +7,21 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import Accordion from "../Accordian/Index";
+import Accordion from "../../components/Accordian/Index";
 import colors from "../../styles/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function TaskList({ data, selected }) {
+export default function TaskList({ data, selected, project }) {
   return (
     <View
       style={[
         styles.shadowProp,
         {
           backgroundColor: "#F4F4F415",
-          width: "95%",
-          height: 400,
+          width: "100%",
+          height: 230,
           borderRadius: 8,
           padding: 8,
           marginBottom: 18,
@@ -35,11 +35,11 @@ export default function TaskList({ data, selected }) {
           flexDirection: "row",
           // justifyContent: 'space-between',
           width: "100%",
-          height: "40%",
+          height: "67%",
         }}
       >
         <LinearGradient
-          colors={data.color}
+          colors={["rgba(0,116,117,1)", "rgba(232,232,232,1)"]}
           start={{ x: 0.1, y: 0.2 }}
           style={{
             width: "40%",
@@ -65,30 +65,31 @@ export default function TaskList({ data, selected }) {
             style={{
               color: colors.white,
               fontSize: 25,
-              width: "55%",
+              // minWidth: "55%",
               fontWeight: "bold",
               textAlign: "justify",
               height: "80%",
-              maxWidth: "100%",
+              width: 230,
+              paddingRight: 20,
             }}
           >
-            {data.title}
+            {data.titulo}
           </Text>
 
           <Text
             style={{
               color: colors.gray,
               fontSize: 15,
-              width: "55%",
+              width: "100%",
               // fontWeight: 'bold',
               textAlign: "left",
               height: "20%",
               alignSelf: "stretch",
             }}
           >
-            {data.dt}
+            {data.dT_PREVISTA}
             {"\n"}
-            {data.people}
+            {project.professor.nome}
           </Text>
         </View>
       </TouchableOpacity>
@@ -117,7 +118,7 @@ export default function TaskList({ data, selected }) {
       </View>
 
       {/* //Result */}
-      {data.conclud && (
+      {data.fL_FINALIZADA === 1 && (
         <Text
           style={{
             fontSize: 15,
@@ -127,7 +128,7 @@ export default function TaskList({ data, selected }) {
             borderRadius: 100,
             width: 40,
             height: 40,
-            margin: -12,
+            // margin: -3,
             textAlign: "center",
             display: "flex",
             alignItems: "flex-end",

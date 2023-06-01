@@ -9,7 +9,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import ModalProjectListDetails from "../../components/AdvisorComponents/ModalProjectListDetails";
+import ModalInformRequest from "../../components/AdvisorComponents/ModalInformRequest";
 
 import AccordianNotification from "../../components/AccordianNotification/Index";
 import colors from "../../styles/colors";
@@ -347,7 +347,7 @@ export default function Home() {
         </View>
       </View>
       {requests[peopleSetSolici] && (
-        <ModalProjectListDetails
+        <ModalInformRequest
           data={requests[peopleSetSolici]}
           isOpen={modalSolici}
           onClose={(state) => setModalSolici(state)}

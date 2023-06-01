@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -11,27 +11,21 @@ import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import api from "../../services/api";
 import { LinearGradient } from "expo-linear-gradient";
-
-import MyButton from "../../components/MyButton/Index";
-import LinkButton from "../../components/LinkButton/Index";
-import MenuBaseUser from "../../components/MenuBaseUser/index";
-
 import colors from "../../styles/colors";
-//import Loading from '../../components/Loading/Loading';
-import { AntDesign } from "@expo/vector-icons";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import TaskList from "../../components/StudentComponents/TaskList";
-import ModalTaskListDetails from "../../components/StudentComponents/ModalTaskListDetails";
-
-const eye = "eye";
-const eyeOff = "eye-off";
+import ModalProjectDetails from "../../components/AdvisorComponents/ModalProjectDetails";
+import { useUser } from "../../contexts/UserContext";
+import { useSystem } from "../../contexts/SystemContext";
+import ProjectList from "../../components/AdvisorComponents/ProjectList";
 
 export default function Task() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [showData, setShowData] = useState(0);
+  const [showProject, setShowProject] = useState(0);
+  const [showModalProject, setShowModalProject] = useState(false);
+  const [project, setProject] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const user = useUser();
+  const system = useSystem();
 
   const variações = [
     ["#833ab4", "#fd1d1d", "#fcb045"],
@@ -42,41 +36,70 @@ export default function Task() {
     ["rgba(0,116,117,1)", "rgba(232,232,232,1)"],
   ];
 
-  const dataTeste = [
-    {
-      title: "Crie um Google Forms sobre a população",
-      descricao:
-        "Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada.",
-      dt: "Criado em 22/05/2023 às 23:05",
-      people: "Renato Correa",
-      color: ["rgba(0,116,117,1)", "rgba(232,232,232,1)"],
-      conclud: true,
-    },
-    {
-      title: "Analise profunda da prospecção do ar",
-      descricao:
-        "Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada.",
-      dt: "Criado em 05/05/2023 às 18:01",
-      people: "Renato Correa",
-      color: ["#21D4FD", "#B721FF"],
-      conclud: false,
-    },
-    {
-      title:
-        "Crie um banco de dados NoSQL para armazenar todos os dados do trabalho",
-      descricao:
-        "Lorem ipsum ut viverra orci bibendum sit consectetur urna mattis himenaeos lacus curabitur accumsan, maecenas aenean ultrices duis euismod torquent eleifend iaculis curabitur turpis at. aenean quisque tempus purus pellentesque volutpat cursus massa scelerisque, tristique consectetur ultrices consequat venenatis magna vestibulum eget pharetra, primis congue imperdiet arcu quisque sapien fames. amet donec massa nullam turpis dolor praesent, malesuada accumsan eget aliquam mattis ullamcorper id, elementum nostra vestibulum dolor nunc. imperdiet netus mauris sociosqu rhoncus adipiscing laoreet aliquam mauris imperdiet mauris molestie nec nisl, lacinia conubia mauris mi ultricies magna fusce sapien aliquet lorem suscipit curae. Auctor nunc iaculis aliquam odio condimentum dictum ad pretium interdum, convallis eget malesuada senectus ad augue ipsum semper hac ipsum, scelerisque nibh nisi tellus senectus vestibulum dictumst cras. in auctor accumsan dui neque cras senectus praesent phasellus mi diam aliquet eros, maecenas primis tortor integer ac sodales mollis tempus cras ad. imperdiet auctor mattis, malesuada.",
-      dt: "Criado em 05/05/2023 às 18:01",
-      people: "Renato Correa",
-      color: ["#833ab4", "#fd1d1d", "#fcb045"],
-      conclud: false,
-    },
-  ];
-
-  function onOpenModal(id) {
-    setModalVisible(true);
-    setShowData(id);
+  async function loadingPage() {
+    system.setPageLoading(true);
+    var usuario = await user.getUserStorage();
+    console.log(usuario.id);
+    try {
+      await api
+        .post("/worker/getProject", {
+          iD_ALUNO: 0,
+          iD_PROFESSOR: usuario.id,
+        })
+        .then((response) => {
+          setProject(response.data.result);
+        });
+    } catch (e) {
+      console.log(e);
+      if (
+        e.response.data.mensagem == "Nenhuma solcitação para esses parametros!"
+      ) {
+        setProject([]);
+      } else {
+        alert(e);
+        setProject([]);
+      }
+    }
+    system.setPageLoading(false);
   }
+
+  async function openProject(id, index) {
+    system.setPageLoading(true);
+    try {
+      await api
+        .post("/worker/getTask", {
+          iD_PROJETO: id,
+        })
+        .then((response) => {
+          setTasks(response.data.result);
+        });
+    } catch (e) {
+      if (e.response.data.mensagem == "Nenhuma tarefa para esses parametros!") {
+        setTasks([]);
+      } else {
+        alert(e);
+        setShowProject(0);
+        setShowModalProject(false);
+        setTasks([]);
+        system.setPageLoading(false);
+        return;
+      }
+    }
+    setShowProject(index);
+    setShowModalProject(true);
+    system.setPageLoading(false);
+  }
+
+  async function closeModalProject() {
+    setShowProject(0);
+    setShowModalProject(false);
+    await loadingPage();
+  }
+
+  useEffect(() => {
+    loadingPage();
+    return () => {};
+  }, []);
 
   return (
     <>
@@ -107,13 +130,29 @@ export default function Task() {
                 alignContent: "center",
               }}
             >
-              {/* {dataTeste.map((item, index) => (
-                <TaskList
-                  key={index}
-                  data={item}
-                  selected={() => onOpenModal(index)}
-                />
-              ))} */}
+              {project.length > 0 ? (
+                project.map((item, index) => (
+                  <ProjectList
+                    key={index}
+                    data={item}
+                    selected={() => openProject(item.iD_PROJETO, index)}
+                  />
+                ))
+              ) : (
+                <View
+                  style={{
+                    width: 500,
+                    // height: "100%",
+                    // backgroundColor: "red",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ color: colors.white, fontSize: 18 }}>
+                    Olá! Você ainda não tem projetos cadastrados...
+                  </Text>
+                </View>
+              )}
             </View>
             <Text></Text>
             <Text></Text>
@@ -122,12 +161,17 @@ export default function Task() {
           </ScrollView>
         </SafeAreaView>
       </View>
-
-      <ModalTaskListDetails
-        data={dataTeste[showData]}
-        isOpen={modalVisible}
-        onClose={(state) => setModalVisible(state)}
-      />
+      {showModalProject && (
+        <ModalProjectDetails
+          data={project[showProject]}
+          isOpen={showModalProject}
+          tasks={tasks}
+          onClose={(state) => closeModalProject()}
+          reload={() =>
+            openProject(project[showProject].iD_PROJETO, showProject)
+          }
+        />
+      )}
     </>
   );
 }
